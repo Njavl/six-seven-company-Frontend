@@ -1,3 +1,125 @@
+
+"use client";
+
+import { useState } from "react";
+import css from "./LoginForm.module.css";
+import Link from "next/link";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import { login } from "@/lib/api/clientApi";
+
+import { loginSchema } from "./validation";
+import { AuthCredentials } from "@/types/user";
+import toast from "react-hot-toast";
+import Loader from "../Loader/Loader";
+
 export default function LoginForm() {
-  return null;
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = async (values: AuthCredentials, actions: FormikHelpers<AuthCredentials>) => {
+    try {
+      const user = await login(values);
+     console.log(user);
+     
+
+    } catch {
+      toast.error("Login failed");
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
+
+  return (
+    <Formik
+      initialValues={{
+        email: "",
+        password: "",
+      }}
+      validationSchema={loginSchema}
+      onSubmit={handleSubmit}
+      validateOnMount
+    >
+      {({ isSubmitting, isValid, errors, touched }) => (
+        <Form className={css.loginForm}>
+          <h1 className={css.title}>Login</h1>
+
+          <div className={css.formGroup}>
+            <label htmlFor="email" className={css.label}>
+              Enter your email address
+            </label>
+
+            <Field
+               className={`${css.input} ${
+                touched.email && errors.email
+                  ? css.inputError
+                  : touched.email && !errors.email
+                  ? css.inputSuccess
+                  : ""
+              }`}
+              type="email"
+              id="email"
+              name="email"
+              placeholder="email@gmail.com"
+            />
+
+            <ErrorMessage
+              name="email"
+              component="p"
+              className={css.error}
+            />
+         
+          </div>
+
+          <div className={css.formGroup}>
+            <label htmlFor="password" className={css.label}>
+              Create a strong password
+            </label>
+<div className={css.passwordWrapper}>
+            <Field
+              className={`${css.input} ${
+                touched.password && errors.password
+                  ? css.inputError
+                  : touched.password && !errors.password
+                  ? css.inputSuccess
+                  : ""
+              }`}
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              placeholder="********"
+              />
+               <button
+                type="button"
+                className={css.eyeBtn}
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "eye-crossed" : "eye"}
+              >
+                {showPassword ? "eye-crossed" : "eye"}
+              </button>
+              </div>
+            <ErrorMessage
+              name="password"
+              component="p"
+              className={css.error}
+            />
+          </div>
+
+          <button
+            className={css.submitBtn}
+            type="submit"
+            disabled={!isValid ||isSubmitting}
+          >
+            {isSubmitting ? <Loader/> : "Login"}
+          </button>
+
+          <p className={css.text}>
+            Don&apos;t have an account?{" "}
+            <Link href="/auth/register" className={css.link}>
+              Register
+            </Link>
+          </p>
+        </Form>
+      )}
+    </Formik>
+  );
 }
+
