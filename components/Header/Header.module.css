@@ -1,0 +1,95 @@
+.header {
+    background-color: #3d2218;
+    /* Цвет из Figma */
+    padding: 20px;
+    color: white;
+    max-width: 1440px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.navLink {
+    color: #ffffff;
+    /* Цвет ссылок — белый */
+    text-decoration: none;
+    /* Убираем стандартное подчеркивание */
+    transition: text-decoration 0.2s;
+    /* Плавный эффект появления */
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+    /* Подчеркивание при наведении */
+    text-decoration-color: #ffffff;
+    /* Цвет подчеркивания — белый */
+    text-underline-offset: 6px;
+    /* Небольшой отступ от текста до линии */
+}
+
+/* Стили для кнопки Register (если нужно исключить её из подчеркивания) */
+.registerBtn {
+    background-color: #9B6C43;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+.registerBtn:hover {
+    text-decoration: none;
+    /* Кнопка не должна подчеркиваться */
+    opacity: 0.9;
+}
+
+.logoIcon {
+    width: 165px;
+    height: 46px;
+}
+
+.menuOpenBtn {
+    display: none;
+}
+
+.menuOpenImg {
+    fill: "#2F2F37";
+}
+
+/* --- Планшеты (до 1440px) --- */
+@media screen and (max-width: 1439px) {}
+
+/* --- Мобильные (до 768px) --- */
+@media screen and (max-width: 767px) {
+    .navLink {
+        display: none;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .menuOpenBtn {
+        display: block;
+        background-color: transparent;
+        border: none;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
