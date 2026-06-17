@@ -35,6 +35,7 @@ export default function MainPage() {
       <section className={styles.recipesSection}>
         <div className={styles.recipesInner}>
           <h2 className={styles.recipesTitle}>Recipes</h2>
+          <p className={styles.recipesLoading}>Loading recipes…</p>
         </div>
       </section>
     </>
