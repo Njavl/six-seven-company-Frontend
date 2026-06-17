@@ -1,0 +1,107 @@
+.hero {
+  width: 100%;
+  padding: 128px 0;
+  margin-bottom: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 0;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.title {
+  width: 100%;
+  max-width: 500px;
+  color: var(--color-white);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+
+.searchBox {
+  width: 100%;
+  max-width: 600px;
+}
+
+.recipesSection {
+  background-color: var(--color-bg);
+  padding-bottom: 80px;
+}
+
+.recipesInner {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.recipesTitle {
+  color: var(--color-black);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 21.5px;
+}
+
+@media (max-width: 1439px) {
+  .heroImage {
+    content: url('/images/home/banner-tablet@2x.jpg');
+  }
+}
+
+@media (min-width: 768px) {
+  .heroInner {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+
+  .recipesInner {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+
+  .title {
+    max-width: 600px;
+    font-size: 48px;
+    margin-bottom: 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .heroInner {
+    padding-right: 671px;
+    padding-left: 108px;
+  }
+
+  .recipesInner {
+    padding-right: 108px;
+    padding-left: 108px;
+  }
+
+  .title {
+    max-width: 500px;
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .heroImage {
+    content: url('/images/home/banner-mobile@2x.webp');
+    object-position: center;
+  }
+}
