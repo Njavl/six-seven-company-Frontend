@@ -1,5 +1,9 @@
-import type { AuthCredentials, User } from '@/types/user';
 import api from './api';
+import type {
+  AuthCredentials,
+  RegisterCredentials,
+  User,
+} from '@/types/user';
 
 export const getCurrentUser = async () => {
   const { data } = await api.get<User>('/users/current');
@@ -22,6 +26,13 @@ export const logout = async () => {
 
 export async function login(payload: AuthCredentials): Promise<User> {
   const { data } = await api.post<User>('/auth/login', payload);
+  return data;
+}
+
+export async function register(
+  payload: RegisterCredentials
+): Promise<User> {
+  const { data } = await api.post<User>('/auth/register', payload);
   return data;
 }
 
