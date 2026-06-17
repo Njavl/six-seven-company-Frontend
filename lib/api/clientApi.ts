@@ -1,4 +1,4 @@
-import type { User } from '@/types/user';
+import type { AuthCredentials, User } from '@/types/user';
 import api from './api';
 
 export const getCurrentUser = async () => {
@@ -19,5 +19,10 @@ export const logout = async () => {
   const { data } = await api.post('/auth/logout');
   return data;
 };
+
+export async function login(payload: AuthCredentials): Promise<User> {
+  const { data } = await api.post<User>('/auth/login', payload);
+  return data;
+}
 
 export { api };
