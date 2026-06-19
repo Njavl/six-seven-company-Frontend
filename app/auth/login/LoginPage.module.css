@@ -1,0 +1,20 @@
+.loginSection {
+    padding: 91px 16px;
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (min-width: 768px) {
+    .loginSection {
+        padding: 262px 123px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .loginSection {
+            padding-top: 176.5px;
+            padding-bottom: 156.5px;
+            padding-left: 510px;
+            padding-right: 510px;
+        }
+    }
