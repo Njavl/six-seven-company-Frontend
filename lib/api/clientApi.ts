@@ -1,5 +1,14 @@
 import type { AuthCredentials, User } from '@/types/user';
 import api from './api';
+import type { Recipe } from '@/types/recipe';
+
+
+export async function getRecipeById(
+  recipeId: string
+): Promise<Recipe> {
+  const { data } = await api.get<Recipe>(`/recipes/${recipeId}`);
+  return data;
+}
 
 export const getCurrentUser = async () => {
   const { data } = await api.get<User>('/users/current');
