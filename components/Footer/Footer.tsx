@@ -37,7 +37,6 @@ export default function Footer() {
               Recipes
             </Link>
 
-            {/* Кнопка Account рендерится только если модалка закрыта */}
             {!isModalOpen && (
               <button
                 type="button"

@@ -6,11 +6,10 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 16px; /* Защитный отступ на мобилках */
+  padding: 16px; 
 }
 
 .modal {
-  /* Без фонов и фиксированной ширины — размер задает сам контент */
   width: 100%;
   display: flex;
   justify-content: center;
