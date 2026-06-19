@@ -1,0 +1,18 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px; /* Защитный отступ на мобилках */
+}
+
+.modal {
+  /* Без фонов и фиксированной ширины — размер задает сам контент */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
