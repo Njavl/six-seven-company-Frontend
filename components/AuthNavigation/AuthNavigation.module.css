@@ -1,0 +1,158 @@
+/* .userEmail {
+    color: white;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.logoutButton {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logoutButton:hover {
+    background-color: white;
+    color: #333;
+} */
+
+/* .navigationItem {
+    display: flex;
+    align-items: center;
+}
+
+.navigationLink {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+}
+
+.navigationLink:hover {
+    color: #ddd;
+} */
+
+.registerBtn {
+    background-color: #9B6C43;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.registerBtn:hover {
+    text-decoration: none;
+    /* Кнопка не должна подчеркиваться */
+    opacity: 0.9;
+}
+
+.navLink {
+    color: #ffffff;
+    /* Цвет ссылок — белый */
+    text-decoration: none;
+    /* Убираем стандартное подчеркивание */
+    transition: text-decoration 0.2s;
+    /* Плавный эффект появления */
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+    /* Подчеркивание при наведении */
+    text-decoration-color: #ffffff;
+    /* Цвет подчеркивания — белый */
+    text-underline-offset: 6px;
+    /* Небольшой отступ от текста до линии */
+}
+
+.userAvatar {
+    width: 32px;
+    /* Размер круга */
+    height: 32px;
+    background-color: #9B6C43;
+    /* Цвет из вашего макета */
+    color: white;
+    border-radius: 50%;
+    /* Делает элемент круглым */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 8.5px;
+    text-transform: uppercase;
+    /* Гарантирует заглавную букву */
+    cursor: pointer;
+    /* border: 2px solid rgba(255, 255, 255, 0.2); */
+    /* Легкая обводка */
+}
+
+.authGroup {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.guestGroup{
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.divider {
+    width: 1px;
+    height: 39px;
+    background-color: white;
+    margin: 0 16px;
+}
+
+.userNav {
+    display: flex;
+    align-items: center;
+}
+
+.logoutButton {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #ffffff;
+    background: transparent;
+    border: none;
+}
+
+.linkButton {
+    color: #ffffff;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    transition: text-decoration 0.2s;
+}
+
+.linkButton:hover {
+    text-decoration: underline;
+    text-decoration-color: #ffffff;
+    text-underline-offset: 6px;
+}
+
+/* --- Планшеты (до 1440px) --- */
+@media screen and (max-width: 1439px) {}
+
+/* --- Мобильные (до 768px) --- */
+@media screen and (max-width: 767px) {
+    .authGroup {
+        display: none;
+    }
+
+}

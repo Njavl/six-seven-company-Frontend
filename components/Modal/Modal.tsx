@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import css from './Modal.module.css';
 
 interface ModalProps {
@@ -9,6 +9,13 @@ interface ModalProps {
 }
 
 export default function Modal({ children, onClose }: ModalProps) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'; 
+    
+    return () => {
+      document.body.style.overflow = ''; 
+    };
+  }, []);
   return (
     <div className={css.backdrop} onClick={onClose}>
       <div
