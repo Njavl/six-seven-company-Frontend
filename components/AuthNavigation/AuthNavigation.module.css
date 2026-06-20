@@ -129,23 +129,6 @@
     border: none;
 }
 
-.linkButton {
-    color: #ffffff;
-    background: transparent;
-    border: none;
-    padding: 0;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 600;
-    transition: text-decoration 0.2s;
-}
-
-.linkButton:hover {
-    text-decoration: underline;
-    text-decoration-color: #ffffff;
-    text-underline-offset: 6px;
-}
-
 /* --- Планшеты (до 1440px) --- */
 @media screen and (max-width: 1439px) {}
 
