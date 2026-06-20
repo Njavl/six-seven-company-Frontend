@@ -58,11 +58,6 @@
   margin-bottom: 21.5px;
 }
 
-.recipesLoading {
-  color: var(--color-text-muted);
-  font-size: 16px;
-}
-
 @media (max-width: 1439px) {
   .heroImage {
     content: url('/images/home/banner-tablet@2x.jpg');
