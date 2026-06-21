@@ -14,11 +14,7 @@ import { AuthCredentials } from "@/types/user";
 import toast from "react-hot-toast";
 import Loader from "../Loader/Loader";
 
-interface LoginFormProps {
-  onSuccess?: () => void;
-}
-
-export default function LoginForm({ onSuccess }: LoginFormProps) {
+export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
@@ -28,12 +24,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
       const user = await login(values);
       setUser(user);
       toast.success("Welcome back!");
-
-      if (onSuccess) {
-        onSuccess();
-      } else {
-        router.push("/");
-      }
+      router.push("/");
     } catch {
       toast.error("Login failed");
     } finally {
