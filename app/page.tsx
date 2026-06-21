@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import Image from 'next/image';
 import SearchBox from '@/components/SearchBox/SearchBox';
+import Filters from '@/components/Filters/Filters';
+import RecipesList from '@/components/RecipesList/RecipesList';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -28,14 +31,19 @@ export default function MainPage() {
         />
         <div className={styles.heroInner}>
           <h1 className={styles.title}>Plan, Cook, and Share Your Flavors</h1>
-          <SearchBox className={styles.searchBox} />
+          <Suspense fallback={null}>
+            <SearchBox className={styles.searchBox} />
+          </Suspense>
         </div>
       </section>
 
       <section className={styles.recipesSection}>
         <div className={styles.recipesInner}>
           <h2 className={styles.recipesTitle}>Recipes</h2>
-          <p className={styles.recipesLoading}>Loading recipes…</p>
+          <Suspense fallback={null}>
+            <Filters />
+            <RecipesList source="search" />
+          </Suspense>
         </div>
       </section>
     </>
