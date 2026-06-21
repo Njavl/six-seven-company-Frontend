@@ -38,15 +38,6 @@
   cursor: pointer;
 }
 
-.accountBtn {
-  background: transparent;
-  border: none;
-  color: var(--color-white);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
 @media screen and (max-width: 768px) {
   .container {
     flex-direction: column;
