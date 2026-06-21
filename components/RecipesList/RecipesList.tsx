@@ -3,12 +3,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import {
   getFavoriteRecipes,
   getOwnRecipes,
   searchRecipes,
 } from '@/lib/api/clientApi';
+import { useFilters } from '@/lib/hooks/useFilters';
 import type { Recipe, RecipeListResponse } from '@/types/recipe';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import styles from './RecipesList.module.css';
@@ -45,11 +45,11 @@ export default function RecipesList({
   source = 'search',
   perPage = 12,
 }: RecipesListProps) {
-  const searchParams = useSearchParams();
+  const filters = useFilters();
   const isSearch = source === 'search';
-  const search = isSearch ? (searchParams.get('search') ?? '') : '';
-  const category = isSearch ? (searchParams.get('category') ?? '') : '';
-  const ingredient = isSearch ? (searchParams.get('ingredient') ?? '') : '';
+  const search = isSearch ? filters.search : '';
+  const category = isSearch ? filters.category : '';
+  const ingredient = isSearch ? filters.ingredient : '';
 
   const {
     data,
