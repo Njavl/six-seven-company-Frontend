@@ -4,9 +4,18 @@ import type {
   RegisterCredentials,
   User,
 } from '@/types/user';
-import type { RecipeListResponse, SearchRecipesParams } from '@/types/recipe';
+import type {
+  Recipe,
+  RecipeListResponse,
+  SearchRecipesParams,
+} from '@/types/recipe';
 import type { Category } from '@/types/category';
 import type { Ingredient } from '@/types/ingredient';
+
+export async function getRecipeById(recipeId: string): Promise<Recipe> {
+  const { data } = await api.get<Recipe>(`/recipes/${recipeId}`);
+  return data;
+}
 
 export const getCurrentUser = async () => {
   const { data } = await api.get<User>('/users/current');

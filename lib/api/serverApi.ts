@@ -1,4 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
+import type { Recipe } from '@/types/recipe';
 
 const baseURL =
   (process.env.API_URL ??
@@ -16,6 +17,11 @@ export async function checkSession(
   return serverApi.post('/auth/refresh', null, {
     headers: { Cookie: cookieHeader },
   });
+}
+
+export async function getRecipeById(recipeId: string): Promise<Recipe> {
+  const { data } = await serverApi.get<Recipe>(`/recipes/${recipeId}`);
+  return data;
 }
 
 export default serverApi;
