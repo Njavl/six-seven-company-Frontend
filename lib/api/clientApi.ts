@@ -5,6 +5,8 @@ import type {
   User,
 } from '@/types/user';
 import type { RecipeListResponse, SearchRecipesParams } from '@/types/recipe';
+import type { Category } from '@/types/category';
+import type { Ingredient } from '@/types/ingredient';
 
 export const getCurrentUser = async () => {
   const { data } = await api.get<User>('/users/current');
@@ -85,5 +87,15 @@ export async function getFavoriteRecipes(
   );
   return data.data;
 }
+
+export const getCategories = async (): Promise<Category[]> => {
+  const { data } = await api.get<Category[]>('/categories');
+  return data;
+};
+
+export const getIngredients = async (): Promise<Ingredient[]> => {
+  const { data } = await api.get<Ingredient[]>('/ingredients');
+  return data;
+};
 
 export { api };
