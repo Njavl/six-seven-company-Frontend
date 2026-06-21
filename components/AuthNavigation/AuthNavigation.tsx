@@ -1,18 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import useAuthStore from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
-import Modal from '../Modal/Modal';
-import LoginForm from '../LoginForm/LoginForm';
 import css from './AuthNavigation.module.css';
 
 export default function AuthNavigation() {
   const router = useRouter();
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const { isAuthenticated, user, clearUser } = useAuthStore();
 
@@ -63,23 +59,13 @@ export default function AuthNavigation() {
           <Link href="/" className={css.navLink}>
             Recipes
           </Link>
-          <button
-            type="button"
-            className={css.linkButton}
-            onClick={() => setIsLoginOpen(true)}
-          >
+          <Link href="/auth/login" className={css.navLink}>
             Log in
-          </button>
+          </Link>
           <Link href="/auth/register" className={css.registerBtn}>
             Register
           </Link>
         </div>
-      )}
-
-      {isLoginOpen && (
-        <Modal onClose={() => setIsLoginOpen(false)}>
-          <LoginForm onSuccess={() => setIsLoginOpen(false)} />
-        </Modal>
       )}
     </nav>
   );

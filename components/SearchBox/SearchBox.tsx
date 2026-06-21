@@ -1,8 +1,8 @@
 'use client';
 
 import { useFormik } from 'formik';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import * as Yup from 'yup';
+import { useFilters } from '@/lib/hooks/useFilters';
 import styles from './SearchBox.module.css';
 
 type SearchBoxProps = {
@@ -17,27 +17,15 @@ const validationSchema = Yup.object({
 });
 
 export default function SearchBox({ className = '' }: SearchBoxProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { search, setSearch } = useFilters();
   const formik = useFormik({
     initialValues: {
-      search: searchParams.get('search') ?? '',
+      search,
     },
     enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      const params = new URLSearchParams(searchParams.toString());
-      const normalizedSearch = values.search.trim();
-
-      if (normalizedSearch) {
-        params.set('search', normalizedSearch);
-      } else {
-        params.delete('search');
-      }
-
-      const nextSearch = params.toString();
-      router.push(nextSearch ? `${pathname}?${nextSearch}` : pathname);
+      setSearch(values.search.trim());
     },
   });
 

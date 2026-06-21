@@ -1,14 +1,18 @@
 import { Recipe } from '../../types/recipe';
 import css from './RecipeDetails.module.css';
 import Image from 'next/image';
-/*import SaveButton from '../SaveButton/SaveButton';*/
+/* SaveButton and its favorites state belong to the SaveButton task (S10).
+   Re-enable together when that component is ready:
+import SaveButton from '../SaveButton/SaveButton';
 import { getCurrentUser } from '@/lib/api/clientApi';
+*/
 
 interface RecipeDetailsProps {
   data: Recipe;
 }
 
-export default async function RecipeDetails({ data }: RecipeDetailsProps) {
+export default function RecipeDetails({ data }: RecipeDetailsProps) {
+  /* favorites/isFavorite feed SaveButton (S10) — enable with that component:
   let favorites: string[] = [];
   try {
     const me = await getCurrentUser();
@@ -17,6 +21,7 @@ export default async function RecipeDetails({ data }: RecipeDetailsProps) {
     favorites = [];
   }
   const isFavorite = favorites.includes(data._id);
+  */
 
   return (
     <section className={css.recipeDetailsSection}>

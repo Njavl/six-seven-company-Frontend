@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getRecipeById } from '@/lib/api/clientApi';
+import { getRecipeById } from '@/lib/api/serverApi';
 import RecipeDetails from '@/components/RecipeDetails/RecipeDetails';
 import RecipeNotFound from './not-found';
 
