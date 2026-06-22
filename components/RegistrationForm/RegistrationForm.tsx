@@ -12,6 +12,7 @@ import type { RegisterCredentials } from '@/types/user';
 
 import Loader from '../Loader/Loader';
 import { registrationSchema } from './validation';
+import { ROUTES } from '@/lib/constants/routes';
 import styles from './RegistrationForm.module.css';
 
 interface RegisterFormValues extends RegisterCredentials {
@@ -45,7 +46,7 @@ export default function RegistrationForm() {
 
       setUser(user);
       toast.success('Registration successful');
-      router.push('/');
+      router.push(ROUTES.HOME);
     } catch {
       toast.error('Registration failed. Please try again.');
     } finally {
@@ -214,7 +215,7 @@ export default function RegistrationForm() {
 
             <p className={styles.loginText}>
               Already have an account?{' '}
-              <Link href="/auth/login" className={styles.loginLink}>
+              <Link href={ROUTES.LOGIN} className={styles.loginLink}>
                 Log in
               </Link>
             </p>

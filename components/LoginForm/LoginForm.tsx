@@ -13,6 +13,7 @@ import { loginSchema } from "./validation";
 import { AuthCredentials } from "@/types/user";
 import toast from "react-hot-toast";
 import Loader from "../Loader/Loader";
+import { ROUTES } from "@/lib/constants/routes";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +25,7 @@ export default function LoginForm() {
       const user = await login(values);
       setUser(user);
       toast.success("Welcome back!");
-      router.push("/");
+      router.push(ROUTES.HOME);
     } catch {
       toast.error("Login failed");
     } finally {
@@ -123,7 +124,7 @@ export default function LoginForm() {
 
           <p className={css.text}>
             Don&apos;t have an account?{" "}
-            <Link href="/auth/register" className={css.link}>
+            <Link href={ROUTES.REGISTER} className={css.link}>
               Register
             </Link>
           </p>

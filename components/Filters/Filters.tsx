@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCategories, getIngredients } from '@/lib/api/clientApi';
 import { useFilters } from '@/lib/hooks/useFilters';
+import { QUERY_KEYS } from '@/lib/constants/query-keys';
 import styles from './Filters.module.css';
 
 export default function Filters() {
@@ -10,13 +11,13 @@ export default function Filters() {
     useFilters();
 
   const { data: categories = [] } = useQuery({
-    queryKey: ['categories'],
+    queryKey: [QUERY_KEYS.CATEGORIES],
     queryFn: getCategories,
     staleTime: Infinity,
   });
 
   const { data: ingredients = [] } = useQuery({
-    queryKey: ['ingredients'],
+    queryKey: [QUERY_KEYS.INGREDIENTS],
     queryFn: getIngredients,
     staleTime: Infinity,
   });

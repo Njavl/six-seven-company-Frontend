@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getRecipeById } from '@/lib/api/serverApi';
+import { getRecipeById, getIngredients } from '@/lib/api/serverApi';
 import RecipeDetails from '@/components/RecipeDetails/RecipeDetails';
 import RecipeNotFound from './not-found';
 
@@ -61,9 +61,21 @@ export default async function RecipePage({
       return <RecipeNotFound />;
     }
 
-    return (
-        <RecipeDetails data={recipe} />
+    // Recipe ingredients come back as { id, measure } only — resolve names
+    // from the ingredients reference list.
+    const ingredients = await getIngredients();
+    const nameById = new Map(
+      ingredients.map((item) => [item._id, item.name] as const)
     );
+    const recipeWithNames = {
+      ...recipe,
+      ingredients: recipe.ingredients.map((item) => ({
+        ...item,
+        name: nameById.get(item.id) ?? item.name ?? '',
+      })),
+    };
+
+    return <RecipeDetails data={recipeWithNames} />;
   } catch {
     return <RecipeNotFound />;
   }

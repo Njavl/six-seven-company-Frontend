@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { ROUTES } from '@/lib/constants/routes';
 import styles from './ProfileNavigation.module.css';
 
 const tabs = [
@@ -20,7 +21,7 @@ export default function ProfileNavigation() {
           key={tab.type}
           aria-current={active === tab.type ? 'page' : undefined}
           className={`${styles.tab} ${active === tab.type ? styles.tabActive : ''}`.trim()}
-          href={`/profile/${tab.type}`}
+          href={`${ROUTES.PROFILE}/${tab.type}`}
         >
           {tab.label}
         </Link>
