@@ -1,26 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
 import { getCategories, getIngredients } from '@/lib/api/clientApi';
+import { useFilters } from '@/lib/hooks/useFilters';
 
 import css from './Filters.module.css';
 
-type FiltersProps = {
-  total?: number;
-};
-
-export default function Filters({ total = 0 }: FiltersProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
+export default function Filters() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const selectedCategory = searchParams.get('category') ?? '';
-  const selectedIngredient = searchParams.get('ingredient') ?? '';
+  const {
+    selectedCategory,
+    selectedIngredient,
+    updateFilter,
+    resetFilters,
+  } = useFilters();
 
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
@@ -32,29 +28,13 @@ export default function Filters({ total = 0 }: FiltersProps) {
     queryFn: getIngredients,
   });
 
-  const updateFilter = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-
-    params.set('page', '1');
-
-    router.push(`${pathname}?${params.toString()}`);
-  };
-
-  const resetFilters = () => {
-    router.push(pathname);
+  const handleResetFilters = () => {
+    resetFilters();
     setIsOpen(false);
   };
 
   return (
     <section className={css.filters}>
-      <p className={css.count}>{total} recipes</p>
-
       <button
         className={css.mobileButton}
         type="button"
@@ -76,7 +56,11 @@ export default function Filters({ total = 0 }: FiltersProps) {
           </button>
         </div>
 
-        <button className={css.resetButton} type="button" onClick={resetFilters}>
+        <button
+          className={css.resetButton}
+          type="button"
+          onClick={handleResetFilters}
+        >
           Reset filters
         </button>
 
