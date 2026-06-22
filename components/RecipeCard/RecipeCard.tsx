@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import SaveButton from '../SaveButton/SaveButton';
+import { ROUTES } from '@/lib/constants/routes';
 import styles from './RecipeCard.module.css';
 
 interface RecipeCardProps {
@@ -24,12 +25,10 @@ export default function RecipeCard({
 }: RecipeCardProps) {
   return (
     <div className={styles.item}>
-      {/* Кнопка збереження */}
       <div className={styles.saveButtonWrapper}>
         <SaveButton recipeId={id} isFavoriteInitial={isFavorite} />
       </div>
 
-      {/* Зображення */}
       <div className={styles.image}>
         {thumb ? (
           <Image
@@ -39,32 +38,31 @@ export default function RecipeCard({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
-          <div className={styles.noPhoto}>
-            Немає фото
-          </div>
+          <div className={styles.noPhoto}>No image</div>
         )}
       </div>
 
-      {/* Контент */}
       <div className={styles.content}>
         <div className={styles.titleContainer}>
           <h3 className={styles.title}>{title}</h3>
           <div className={styles.timeCont}>
             <span className={styles.timeSvg}>
-              <Image src="/icons/clock.svg" alt="Clock" width={16} height={16} />
+              <Image src="/icons/clock.svg" alt="" width={16} height={16} />
             </span>
-            <span className={styles.timeTitle}>{time} хв</span>
+            <span className={styles.timeTitle}>{time} min</span>
           </div>
         </div>
 
         <div className={styles.descriptionContainer}>
           <p className={styles.description}>{description}</p>
-          <p className={styles.calories}>{calories ? `${calories} ккал` : '—'}</p>
+          <p className={styles.calories}>
+            {calories ? `${calories} cals` : '—'}
+          </p>
         </div>
 
         <div className={styles.buttonContainer}>
-          <Link href={`/recipes/${id}`} className={styles.button}>
-            Learn More
+          <Link href={ROUTES.RECIPE(id)} className={styles.button}>
+            Learn more
           </Link>
         </div>
       </div>
