@@ -1,5 +1,6 @@
 import axios, { type AxiosResponse } from 'axios';
 import type { Recipe } from '@/types/recipe';
+import type { Ingredient } from '@/types/ingredient';
 
 const baseURL =
   (process.env.API_URL ??
@@ -21,6 +22,11 @@ export async function checkSession(
 
 export async function getRecipeById(recipeId: string): Promise<Recipe> {
   const { data } = await serverApi.get<Recipe>(`/recipes/${recipeId}`);
+  return data;
+}
+
+export async function getIngredients(): Promise<Ingredient[]> {
+  const { data } = await serverApi.get<Ingredient[]>('/ingredients');
   return data;
 }
 

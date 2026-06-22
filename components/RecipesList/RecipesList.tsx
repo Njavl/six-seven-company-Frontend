@@ -9,8 +9,11 @@ import {
   searchRecipes,
 } from '@/lib/api/clientApi';
 import { useFilters } from '@/lib/hooks/useFilters';
+import { ROUTES } from '@/lib/constants/routes';
+import { QUERY_KEYS } from '@/lib/constants/query-keys';
 import type { Recipe, RecipeListResponse } from '@/types/recipe';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
+import Loader from '../Loader/Loader';
 import styles from './RecipesList.module.css';
 
 type Source = 'search' | 'own' | 'favorites';
@@ -59,7 +62,11 @@ export default function RecipesList({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ['recipes', source, { search, category, ingredient, perPage }],
+    queryKey: [
+      QUERY_KEYS.RECIPES,
+      source,
+      { search, category, ingredient, perPage },
+    ],
     queryFn: ({ pageParam }) =>
       fetchers[source]({
         page: pageParam,
@@ -74,7 +81,11 @@ export default function RecipesList({
   });
 
   if (isPending) {
-    return <p className={styles.status}>Loading recipes…</p>;
+    return (
+      <div className={styles.status}>
+        <Loader />
+      </div>
+    );
   }
 
   if (isError) {
@@ -142,7 +153,7 @@ function RecipePreviewCard({ recipe }: { recipe: Recipe }) {
           <p className={styles.calories}>~{recipe.calories} cals</p>
         )}
         <div className={styles.actions}>
-          <Link className={styles.learnMore} href={`/recipes/${recipe._id}`}>
+          <Link className={styles.learnMore} href={ROUTES.RECIPE(recipe._id)}>
             Learn more
           </Link>
           <button

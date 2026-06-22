@@ -1,9 +1,22 @@
 .filters {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
   margin-bottom: 24px;
+}
+
+.count {
+  margin: 0;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--color-text-body);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .field {
@@ -30,7 +43,7 @@
 
 .reset {
   height: 48px;
-  padding: 0 20px;
+  padding: 0 12px;
   border: none;
   border-radius: var(--radius-sm);
   background: transparent;
@@ -38,6 +51,7 @@
   font-weight: 600;
   font-size: 16px;
   text-decoration: underline;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -45,10 +59,88 @@
   color: var(--color-brown-dark);
 }
 
-@media (max-width: 767px) {
+/* Mobile/tablet-only chrome — hidden on desktop */
+.mobileButton,
+.mobileHeader,
+.backdrop {
+  display: none;
+}
+
+/* Tablet + mobile: filters collapse into a dropdown panel (spec) */
+@media (max-width: 1439px) {
   .filters {
+    position: relative;
+  }
+
+  .mobileButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text-body);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .controls {
+    display: none;
+  }
+
+  .controlsOpen {
+    display: flex;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
     flex-direction: column;
     align-items: stretch;
+    gap: 16px;
+    width: min(320px, calc(100vw - 32px));
+    padding: 20px 16px 24px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .mobileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .mobileTitle {
+    margin: 0;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-text-body);
+  }
+
+  .closeButton {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text-body);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
   }
 
   .field,
