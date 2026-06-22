@@ -135,6 +135,10 @@
     margin: 0;
 }
 
+.step {
+    margin-bottom: 1em;
+}
+
 .saveButton {
     display: flex;
     align-items: center;

@@ -1,5 +1,7 @@
 'use client';
 
+import styles from './Pagination.module.css';
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -19,19 +21,15 @@ export default function Pagination({
   );
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-8 mb-4">
+    <div className={styles.pagination}>
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`flex items-center justify-center w-9 h-9 rounded-lg border text-sm font-medium transition-colors
-          ${
-            currentPage === 1
-              ? 'border-gray-200 text-gray-300 cursor-not-allowed bg-gray-50'
-              : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:text-green-600'
-          }`}
+        className={styles.arrow}
+        aria-label="Previous page"
       >
         <svg
-          xmlns="public/icons/arrow-left.svg"
+          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={2}
@@ -46,23 +44,19 @@ export default function Pagination({
         </svg>
       </button>
 
-      <div className="flex items-center gap-1">
+      <div className={styles.pages}>
         {pageNumbers.map(page => {
           const isActive = page === currentPage;
           return (
-            <button
-              key={page}
-              onClick={() => onPageChange(page)}
-              className={`w-9 h-9 flex items-center justify-center rounded-lg text-sm font-medium border transition-all
-                ${
-                  isActive
-                    ? 'bg-green-600 border-green-600 text-white shadow-sm'
-                    : 'bg-white border-gray-300 text-gray-700 hover:border-green-600 hover:text-green-600'
-                }`}
-              aria-current={isActive ? 'page' : undefined}
-            >
-              {page}
-            </button>
+            <div key={page} className={styles.pageItem}>
+              <button
+                onClick={() => onPageChange(page)}
+                className={`${styles.pageBtn} ${isActive ? styles.active : ''}`.trim()}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {page}
+              </button>
+            </div>
           );
         })}
       </div>
@@ -70,15 +64,11 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`flex items-center justify-center w-9 h-9 rounded-lg border text-sm font-medium transition-colors
-          ${
-            currentPage === totalPages
-              ? 'border-gray-200 text-gray-300 cursor-not-allowed bg-gray-50'
-              : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:text-green-600'
-          }`}
+        className={styles.arrow}
+        aria-label="Next page"
       >
         <svg
-          xmlns=""
+          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={2}
