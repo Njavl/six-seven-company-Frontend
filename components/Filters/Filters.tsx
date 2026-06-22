@@ -1,97 +1,68 @@
 'use client';
 
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-
 import { getCategories, getIngredients } from '@/lib/api/clientApi';
 import { useFilters } from '@/lib/hooks/useFilters';
-
-import css from './Filters.module.css';
+import { QUERY_KEYS } from '@/lib/constants/query-keys';
+import styles from './Filters.module.css';
 
 export default function Filters() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const {
-    selectedCategory,
-    selectedIngredient,
-    updateFilter,
-    resetFilters,
-  } = useFilters();
+  const { category, ingredient, setCategory, setIngredient, resetFilters } =
+    useFilters();
 
   const { data: categories = [] } = useQuery({
-    queryKey: ['categories'],
+    queryKey: [QUERY_KEYS.CATEGORIES],
     queryFn: getCategories,
+    staleTime: Infinity,
   });
 
   const { data: ingredients = [] } = useQuery({
-    queryKey: ['ingredients'],
+    queryKey: [QUERY_KEYS.INGREDIENTS],
     queryFn: getIngredients,
+    staleTime: Infinity,
   });
 
-  const handleResetFilters = () => {
-    resetFilters();
-    setIsOpen(false);
-  };
+  const hasActiveFilters = Boolean(category || ingredient);
 
   return (
-    <section className={css.filters}>
-      <button
-        className={css.mobileButton}
-        type="button"
-        onClick={() => setIsOpen(true)}
-      >
-        Filters
-      </button>
-
-      <div className={`${css.controls} ${isOpen ? css.controlsOpen : ''}`}>
-        <div className={css.mobileHeader}>
-          <p className={css.mobileTitle}>Filters</p>
-
-          <button
-            className={css.closeButton}
-            type="button"
-            onClick={() => setIsOpen(false)}
-          >
-            ×
-          </button>
-        </div>
-
-        <button
-          className={css.resetButton}
-          type="button"
-          onClick={handleResetFilters}
-        >
-          Reset filters
-        </button>
-
+    <div className={styles.filters}>
+      <label className={styles.field}>
+        <span className="visually-hidden">Category</span>
         <select
-          className={css.select}
-          value={selectedCategory}
-          onChange={event => updateFilter('category', event.target.value)}
+          className={styles.select}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">Category</option>
-
-          {categories.map(category => (
-            <option key={category._id} value={category.name}>
-              {category.name}
+          {categories.map((item) => (
+            <option key={item._id} value={item.name}>
+              {item.name}
             </option>
           ))}
         </select>
+      </label>
 
+      <label className={styles.field}>
+        <span className="visually-hidden">Ingredient</span>
         <select
-          className={css.select}
-          value={selectedIngredient}
-          onChange={event => updateFilter('ingredient', event.target.value)}
+          className={styles.select}
+          value={ingredient}
+          onChange={(e) => setIngredient(e.target.value)}
         >
           <option value="">Ingredient</option>
-
-          {ingredients.map(ingredient => (
-            <option key={ingredient._id} value={ingredient.name}>
-              {ingredient.name}
+          {ingredients.map((item) => (
+            <option key={item._id} value={item.name}>
+              {item.name}
             </option>
           ))}
         </select>
-      </div>
-    </section>
+      </label>
+
+      {hasActiveFilters && (
+        <button className={styles.reset} type="button" onClick={resetFilters}>
+          Reset filters
+        </button>
+      )}
+    </div>
   );
 }

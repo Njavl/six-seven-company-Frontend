@@ -1,3 +1,5 @@
+import styles from './Loader.module.css';
+
 export default function Loader() {
-  return null;
+  return <div className={styles.spinner} role="status" aria-label="Loading" />;
 }

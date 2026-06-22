@@ -1,18 +1,15 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import useAuthStore from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
-import Modal from '../Modal/Modal';
-import LoginForm from '../LoginForm/LoginForm';
+import { ROUTES } from '@/lib/constants/routes';
 import css from './AuthNavigation.module.css';
 
 export default function AuthNavigation() {
   const router = useRouter();
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const { isAuthenticated, user, clearUser } = useAuthStore();
 
@@ -23,7 +20,7 @@ export default function AuthNavigation() {
       toast.error('Logout failed');
     } finally {
       clearUser();
-      router.push('/');
+      router.push(ROUTES.HOME);
     }
   };
 
@@ -31,10 +28,10 @@ export default function AuthNavigation() {
     <nav className={css.nav}>
       {isAuthenticated ? (
         <div className={css.authGroup}>
-          <Link href="/current" className={css.navLink}>
+          <Link href={`${ROUTES.PROFILE}/own`} className={css.navLink}>
             My Profile
           </Link>
-          <Link href="/add-recipe" className={css.registerBtn}>
+          <Link href={ROUTES.ADD_RECIPE} className={css.registerBtn}>
             Add Recipe
           </Link>
           <div className={css.userNav}>
@@ -60,26 +57,16 @@ export default function AuthNavigation() {
         </div>
       ) : (
         <div className={css.guestGroup}>
-          <Link href="/" className={css.navLink}>
+          <Link href={ROUTES.HOME} className={css.navLink}>
             Recipes
           </Link>
-          <button
-            type="button"
-            className={css.linkButton}
-            onClick={() => setIsLoginOpen(true)}
-          >
+          <Link href={ROUTES.LOGIN} className={css.navLink}>
             Log in
-          </button>
-          <Link href="/auth/register" className={css.registerBtn}>
+          </Link>
+          <Link href={ROUTES.REGISTER} className={css.registerBtn}>
             Register
           </Link>
         </div>
-      )}
-
-      {isLoginOpen && (
-        <Modal onClose={() => setIsLoginOpen(false)}>
-          <LoginForm onSuccess={() => setIsLoginOpen(false)} />
-        </Modal>
       )}
     </nav>
   );

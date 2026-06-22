@@ -14,9 +14,22 @@
   z-index: 0;
 }
 
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(61, 34, 24, 0.72) 0%,
+    rgba(61, 34, 24, 0.4) 45%,
+    rgba(61, 34, 24, 0) 78%
+  );
+}
+
 .heroInner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
@@ -56,11 +69,6 @@
   font-weight: 600;
   line-height: 1.2;
   margin-bottom: 21.5px;
-}
-
-.recipesLoading {
-  color: var(--color-text-muted);
-  font-size: 16px;
 }
 
 @media (max-width: 1439px) {
