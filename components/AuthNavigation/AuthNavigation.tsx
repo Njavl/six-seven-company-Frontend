@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import useAuthStore from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
+import { ROUTES } from '@/lib/constants/routes';
 import css from './AuthNavigation.module.css';
 
 export default function AuthNavigation() {
@@ -19,7 +20,7 @@ export default function AuthNavigation() {
       toast.error('Logout failed');
     } finally {
       clearUser();
-      router.push('/');
+      router.push(ROUTES.HOME);
     }
   };
 
@@ -27,10 +28,10 @@ export default function AuthNavigation() {
     <nav className={css.nav}>
       {isAuthenticated ? (
         <div className={css.authGroup}>
-          <Link href="/profile/own" className={css.navLink}>
+          <Link href={`${ROUTES.PROFILE}/own`} className={css.navLink}>
             My Profile
           </Link>
-          <Link href="/add-recipe" className={css.registerBtn}>
+          <Link href={ROUTES.ADD_RECIPE} className={css.registerBtn}>
             Add Recipe
           </Link>
           <div className={css.userNav}>
@@ -56,13 +57,13 @@ export default function AuthNavigation() {
         </div>
       ) : (
         <div className={css.guestGroup}>
-          <Link href="/" className={css.navLink}>
+          <Link href={ROUTES.HOME} className={css.navLink}>
             Recipes
           </Link>
-          <Link href="/auth/login" className={css.navLink}>
+          <Link href={ROUTES.LOGIN} className={css.navLink}>
             Log in
           </Link>
-          <Link href="/auth/register" className={css.registerBtn}>
+          <Link href={ROUTES.REGISTER} className={css.registerBtn}>
             Register
           </Link>
         </div>

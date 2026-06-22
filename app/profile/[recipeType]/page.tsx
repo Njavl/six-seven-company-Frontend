@@ -4,7 +4,9 @@ import { notFound, useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import ProfileNavigation from '@/components/ProfileNavigation/ProfileNavigation';
 import RecipesList from '@/components/RecipesList/RecipesList';
+import Loader from '@/components/Loader/Loader';
 import useAuthStore from '@/lib/store/authStore';
+import { ROUTES } from '@/lib/constants/routes';
 import styles from './page.module.css';
 
 const validTypes = ['own', 'favorites'] as const;
@@ -18,7 +20,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.replace('/auth/login');
+      router.replace(ROUTES.LOGIN);
     }
   }, [isLoading, isAuthenticated, router]);
 
@@ -27,7 +29,11 @@ export default function ProfilePage() {
   }
 
   if (isLoading || !isAuthenticated) {
-    return <p className={styles.status}>Loading…</p>;
+    return (
+      <div className={styles.status}>
+        <Loader />
+      </div>
+    );
   }
 
   return (

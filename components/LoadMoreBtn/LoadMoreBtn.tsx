@@ -1,5 +1,6 @@
 'use client';
 
+import Loader from '../Loader/Loader';
 import styles from './LoadMoreBtn.module.css';
 
 type LoadMoreBtnProps = {
@@ -20,7 +21,7 @@ export default function LoadMoreBtn({
       onClick={onClick}
       type="button"
     >
-      {isLoading ? 'Loading…' : 'Load More'}
+      {isLoading ? <Loader /> : 'Load More'}
     </button>
   );
 }
