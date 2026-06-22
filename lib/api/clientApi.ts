@@ -107,4 +107,15 @@ export const getIngredients = async (): Promise<Ingredient[]> => {
   return data;
 };
 
+export async function addFavorite(recipeId: string): Promise<Recipe> {
+  const { data } = await api.post<Wrapped<Recipe>>(
+    `/recipes/${recipeId}/favorite`
+  );
+  return data.data;
+}
+
+export async function removeFavorite(recipeId: string): Promise<void> {
+  await api.delete(`/recipes/${recipeId}/favorite`);
+}
+
 export { api };

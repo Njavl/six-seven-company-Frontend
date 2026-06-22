@@ -1,21 +1,21 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import useAuthStore from '@/lib/store/authStore';
+import { addFavorite, removeFavorite } from '@/lib/api/clientApi';
 import styles from './SaveButton.module.css';
 
 interface SaveButtonProps {
   recipeId: string;
   isFavoriteInitial?: boolean;
-  isLoggedIn?: boolean;
 }
 
 export default function SaveButton({
   recipeId,
   isFavoriteInitial = false,
-  isLoggedIn = false,
 }: SaveButtonProps) {
-
-
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,63 +23,42 @@ export default function SaveButton({
     e.preventDefault();
     e.stopPropagation();
 
-    if (!isLoggedIn) {
-      alert('Будь ласка, авторизуйтесь, щоб додавати рецепти в обране.');
+    if (!isAuthenticated) {
+      toast.error('Please log in to save recipes.');
       return;
     }
 
     if (isLoading) return;
 
-const previousFavorite = isFavorite; 
+    const previousFavorite = isFavorite;
+    setIsLoading(true);
+    setIsFavorite(!previousFavorite);
 
-setIsLoading(true);
-setIsFavorite(!previousFavorite); 
-
-try {
-  console.log(
-    previousFavorite 
-      ? `Рецепт ${recipeId} видалено з обраного` 
-      : `Рецепт ${recipeId} додано в обране`
-  );
-} catch (error) {
-  console.error('Не вдалося оновити статус обраного:', error);
-  setIsFavorite(previousFavorite); 
-  alert('Не вдалося зберегти. Спробуйте пізніше.');
-} finally {
-  setIsLoading(false);
-}
+    try {
+      if (previousFavorite) {
+        await removeFavorite(recipeId);
+      } else {
+        await addFavorite(recipeId);
+      }
+    } catch {
+      setIsFavorite(previousFavorite);
+      toast.error('Could not update favorites. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
-  
+
   return (
     <button
+      type="button"
       onClick={handleSaveClick}
       disabled={isLoading}
       className={`${styles.iconBtn} ${isFavorite ? styles.saved : ''}`.trim()}
-      aria-label={isFavorite ? 'Видалити з улюблених' : 'Додати до улюблених'}
+      aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+      aria-pressed={isFavorite}
     >
       {isLoading ? (
-        <div className={styles.loaderContainer}>
-          <svg
-            className="spinner"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-        </div>
+        <span className={styles.spinner} aria-hidden="true" />
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -88,6 +67,7 @@ try {
           strokeWidth={1.5}
           stroke="currentColor"
           className={styles.icon}
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
