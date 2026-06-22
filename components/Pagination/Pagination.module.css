@@ -1,124 +1,119 @@
 .pagination {
-    display: flex;
-    gap: 4px;
-    justify-content: center;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  margin: 24px 0 0;
+  padding: 0;
 }
 
 .pages {
-    display: flex;
-    flex-direction: row;
-    gap: 3px;
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .pageItem {
-    width: 33px;
-    height: 32px;
+  width: 33px;
+  height: 32px;
 }
 
 .pageBtn {
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    background: transparent;
-    transition: background 0.2s ease;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-body);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .pageBtn:hover {
-    background: var(--light-brown);
-    color: var(--white);
-    font-weight: var(--semibold-font-weight);
-    line-height: normal;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-weight: 600;
 }
 
 .active {
-    background: var(--light-brown);
-    color: var(--white);
-    font-weight: var(--semibold-font-weight);
-    line-height: normal;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-weight: 600;
 }
 
 .arrow {
-    width: 33px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: var(--light-brown);
-    color: var(--white);
-    font-weight: var(--semibold-font-weight);
-    transition: background 0.2s ease;
+  width: 33px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-white);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .arrow:hover:not(:disabled) {
-    background: transparent;
-    color: var(--black);
+  background: transparent;
+  color: var(--color-text-body);
 }
 
 .arrow:disabled {
-    background: var(--light-grey);
-    /* #9f9f9f */
-    color: var(--white);
-    cursor: default;
-    pointer-events: none;
+  background: var(--color-gray-light);
+  color: var(--color-white);
+  cursor: default;
 }
 
-.arrow:disabled svg {
-    opacity: 0.6;
+.arrow:disabled .arrowIcon {
+  opacity: 0.6;
+}
+
+.arrowIcon {
+  width: 16px;
+  height: 16px;
 }
 
 .dots {
-    width: 33px;
-    height: 32px;
-    line-height: normal;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    border-radius: 8px;
-    background: transparent;
-    color: var(--black);
-    font-weight: var(--medium-font-weight);
+  width: 33px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-body);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.pageBtn:focus-visible,
+.arrow:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 @media screen and (max-width: 767px) {
-    .pagination {
-        gap: 16px;
-    }
+  .pagination {
+    gap: 16px;
+  }
 
-    .pageItem {
-        width: 28px;
-        height: 28px;
-    }
-
-    .arrow {
-        width: 28px;
-        height: 28px;
-    }
-
-    .dots {
-        width: 28px;
-        height: 28px;
-    }
+  .pageItem,
+  .arrow,
+  .dots {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 @media screen and (min-width: 768px) {
-    .pagination {
-        gap: 22px;
-    }
-
-    .pageItem {
-        width: 33px;
-        height: 32px;
-    }
-
-    .arrow {
-        width: 33px;
-        height: 32px;
-    }
-
-    .dots {
-        width: 33px;
-        height: 32px;
-    }
+  .pagination {
+    gap: 22px;
+  }
 }
