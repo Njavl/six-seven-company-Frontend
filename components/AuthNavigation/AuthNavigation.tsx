@@ -27,7 +27,7 @@ export default function AuthNavigation() {
     <nav className={css.nav}>
       {isAuthenticated ? (
         <div className={css.authGroup}>
-          <Link href="/current" className={css.navLink}>
+          <Link href="/profile/own" className={css.navLink}>
             My Profile
           </Link>
           <Link href="/add-recipe" className={css.registerBtn}>
