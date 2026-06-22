@@ -2,8 +2,16 @@ import Link from 'next/link';
 import useAuthStore from '@/lib/store/authStore';
 import css from '../AuthNavigation/AuthNavigation.module.css'; 
 
+interface NavLinksProps {
+  isAuthenticated: boolean;
+  onLogout: () => void;
+  onOpenLogin: () => void;
+  onClose?: () => void;
+  variant: 'header' | 'mobile';
+}
+
 export default function NavLinks({ isAuthenticated, onLogout, onOpenLogin, onClose, 
-    variant }: any) {
+    variant }: NavLinksProps) {
     const containerClass = variant === 'mobile' ? css.mobileList : css.desktopList;
     const { user } = useAuthStore();
   return (
@@ -11,7 +19,7 @@ export default function NavLinks({ isAuthenticated, onLogout, onOpenLogin, onClo
       {isAuthenticated ? (
         <div className={css.authGroup}>  
           <Link href="/" className={css.navLink} onClick={onClose}>Recipes</Link>
-          <Link href="/current" className={css.navLink} onClick={onClose}>My Profile</Link>
+          <Link href="/profile" className={css.navLink} onClick={onClose}>My Profile</Link>
           <Link href="/add-recipe" className={css.addRecipeBtn} onClick={onClose}>Add Recipe</Link>
           <div className={css.userNav}>
             <div className={css.userAvatar}>
@@ -33,7 +41,7 @@ export default function NavLinks({ isAuthenticated, onLogout, onOpenLogin, onClo
       ) : (
         <div className={css.guestGroup}>
           <Link href="/" className={css.navLink} onClick={onClose}>Recipes</Link>
-          <button onClick={() => { onOpenLogin(); onClose?.(); }} className={css.linkButton}>Log in</button>
+          <Link href="/auth/login" className={css.linkButton} onClick={onClose}>Log in</Link>
           <Link href="/auth/register" className={css.registerBtn} onClick={onClose}>Register</Link>
         </div>
       )}

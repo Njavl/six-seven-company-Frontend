@@ -10,7 +10,7 @@ interface MobileMenuProps {
   isAuthenticated: boolean;
   onLogout: () => void;
   onOpenLogin: () => void;
-  variant?: 'header' | 'mobile'; 
+  variant: 'mobile' | 'header'; 
 }
 
 export default function MobileMenu({ onClose, isAuthenticated, onLogout, onOpenLogin, variant }: MobileMenuProps) {

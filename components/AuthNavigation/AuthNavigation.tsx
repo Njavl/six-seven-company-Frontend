@@ -1,9 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import { useRouter } from 'next/navigation';
 import useAuthStore from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
-import Modal from '../Modal/Modal';
 import LoginForm from '../LoginForm/LoginForm';
 import MobileMenu from '../MobileMenu/MobileMenu';
 import NavLinks from '../NavLinks/NavLinks';
@@ -24,6 +23,12 @@ export default function AuthNavigation({ variant = 'header' }: AuthNavigationPro
     clearUser();
     router.push('/');
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setIsLoginOpen(false);
+    }
+  }, [isAuthenticated]);
 
   return (
     <>
@@ -56,9 +61,7 @@ export default function AuthNavigation({ variant = 'header' }: AuthNavigationPro
         />
       )}
       {isLoginOpen && (
-        <Modal onClose={() => setIsLoginOpen(false)}>
-          <LoginForm onSuccess={() => setIsLoginOpen(false)} />
-        </Modal>
+        <LoginForm />
       )}
     </>
   );
