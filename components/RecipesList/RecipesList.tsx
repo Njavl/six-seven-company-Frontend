@@ -1,6 +1,7 @@
 'use client';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   getFavoriteRecipes,
   getOwnRecipes,
@@ -10,7 +11,7 @@ import { useFilters } from '@/lib/hooks/useFilters';
 import { QUERY_KEYS } from '@/lib/constants/query-keys';
 import type { RecipeListResponse } from '@/types/recipe';
 import RecipeCard from '../RecipeCard/RecipeCard';
-import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
+import Pagination from '../Pagination/Pagination';
 import Loader from '../Loader/Loader';
 import styles from './RecipesList.module.css';
 
@@ -52,30 +53,25 @@ export default function RecipesList({
   const category = isSearch ? filters.category : '';
   const ingredient = isSearch ? filters.ingredient : '';
 
-  const {
-    data,
-    isPending,
-    isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
+  // For search, page lives in the URL/store (useFilters resets it to 1 on filter
+  // changes). Profile lists (own/favorites) have no filters, so they keep a local
+  // page that resets when the tab (source) switches.
+  const [localPage, setLocalPage] = useState(1);
+  useEffect(() => {
+    setLocalPage(1);
+  }, [source]);
+
+  const page = isSearch ? filters.page : localPage;
+  const handlePageChange = isSearch ? filters.setPage : setLocalPage;
+
+  const { data, isPending, isError } = useQuery({
     queryKey: [
       QUERY_KEYS.RECIPES,
       source,
-      { search, category, ingredient, perPage },
+      { search, category, ingredient, perPage, page },
     ],
-    queryFn: ({ pageParam }) =>
-      fetchers[source]({
-        page: pageParam,
-        perPage,
-        search,
-        category,
-        ingredient,
-      }),
-    initialPageParam: 1,
-    getNextPageParam: lastPage =>
-      lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
+    queryFn: () =>
+      fetchers[source]({ page, perPage, search, category, ingredient }),
   });
 
   if (isPending) {
@@ -94,7 +90,7 @@ export default function RecipesList({
     );
   }
 
-  const recipes = data.pages.flatMap(page => page.recipes);
+  const recipes = data.recipes;
 
   if (recipes.length === 0) {
     return <p className={styles.status}>{emptyText[source]}</p>;
@@ -118,12 +114,11 @@ export default function RecipesList({
         ))}
       </ul>
 
-      {hasNextPage && (
-        <LoadMoreBtn
-          onClick={() => fetchNextPage()}
-          isLoading={isFetchingNextPage}
-        />
-      )}
+      <Pagination
+        currentPage={page}
+        totalPages={data.totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
