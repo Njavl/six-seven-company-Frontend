@@ -25,17 +25,13 @@ export default function RecipeCard({
 }: RecipeCardProps) {
   return (
     <div className={styles.item}>
-      <div className={styles.saveButtonWrapper}>
-        <SaveButton recipeId={id} isFavoriteInitial={isFavorite} />
-      </div>
-
       <div className={styles.image}>
         {thumb ? (
           <Image
             src={thumb}
             alt={title}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1440px) 50vw, 25vw"
           />
         ) : (
           <div className={styles.noPhoto}>No image</div>
@@ -49,21 +45,20 @@ export default function RecipeCard({
             <span className={styles.timeSvg}>
               <Image src="/icons/clock.svg" alt="" width={16} height={16} />
             </span>
-            <span className={styles.timeTitle}>{time} min</span>
+            <span className={styles.timeTitle}>{time}</span>
           </div>
         </div>
 
         <div className={styles.descriptionContainer}>
           <p className={styles.description}>{description}</p>
-          <p className={styles.calories}>
-            {calories ? `${calories} cals` : '—'}
-          </p>
+          {calories ? <p className={styles.calories}>~{calories} cals</p> : null}
         </div>
 
         <div className={styles.buttonContainer}>
           <Link href={ROUTES.RECIPE(id)} className={styles.button}>
             Learn more
           </Link>
+          <SaveButton recipeId={id} isFavoriteInitial={isFavorite} />
         </div>
       </div>
     </div>

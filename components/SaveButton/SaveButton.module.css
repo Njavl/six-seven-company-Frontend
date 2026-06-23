@@ -2,32 +2,30 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  align-self: stretch;
+  width: 48px;
+  min-height: 40px;
   padding: 8px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  background: var(--color-white);
-  color: var(--color-text-body);
+  background: transparent;
+  color: var(--color-text);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .iconBtn:hover {
-  background-color: var(--color-accent);
-  color: var(--color-white);
   border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .saved {
-  background-color: var(--color-accent);
-  color: var(--color-white);
   border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .iconBtn.saved:hover {
-  background-color: transparent;
-  color: var(--color-text-body);
+  color: var(--color-text);
   border-color: var(--color-border);
 }
 
