@@ -21,10 +21,18 @@
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: var(--color-white);
   text-decoration: none;
   font-weight: 700;
   font-size: 24px;
+}
+
+.logoIcon {
+  flex-shrink: 0;
+  fill: currentColor;
 }
 
 .closeBtn {

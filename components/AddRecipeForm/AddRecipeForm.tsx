@@ -55,18 +55,8 @@ const initialValues: FormValues = {
 
 function CameraIcon() {
   return (
-    <svg
-      className={styles.cameraIcon}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.2l.9-1.5A1.5 1.5 0 0 1 8.9 3.8h6.2a1.5 1.5 0 0 1 1.3.7L17.3 6h1.2A2.5 2.5 0 0 1 21 8.5v9A2.5 2.5 0 0 1 18.5 20h-13A2.5 2.5 0 0 1 3 17.5z" />
-      <circle cx="12" cy="13" r="3.5" />
+    <svg className={styles.cameraIcon} fill="currentColor" aria-hidden="true">
+      <use href="#icon-placeholder" />
     </svg>
   );
 }
@@ -362,9 +352,11 @@ export default function AddRecipeForm() {
                                   <svg
                                     width="20"
                                     height="20"
+                                    fill="none"
+                                    stroke="currentColor"
                                     aria-hidden="true"
                                   >
-                                    <use href="/icons/sprite.svg#icon-trash" />
+                                    <use href="#icon-delete" />
                                   </svg>
                                 </button>
                               </li>

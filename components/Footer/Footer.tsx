@@ -13,6 +13,15 @@ export default function Footer() {
     <footer className={css.footer}>
       <div className={css.container}>
         <Link href={ROUTES.HOME} className={css.logo}>
+          <svg
+            className={css.logoIcon}
+            width="28"
+            height="26"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <use href="#icon-logo" />
+          </svg>
           Tasteorama
         </Link>
 

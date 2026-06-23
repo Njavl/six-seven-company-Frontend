@@ -43,7 +43,15 @@ export default function RecipeCard({
           <h3 className={styles.title}>{title}</h3>
           <div className={styles.timeCont}>
             <span className={styles.timeSvg}>
-              <Image src="/icons/clock.svg" alt="" width={16} height={16} />
+              <svg
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <use href="#icon-clock" />
+              </svg>
             </span>
             <span className={styles.timeTitle}>{time}</span>
           </div>

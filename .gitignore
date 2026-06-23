@@ -38,6 +38,8 @@ dist-ssr
 /out/
 /build
 
+
+*screenshot*
 tz
 claude*
 MOCKUP-NOTES*

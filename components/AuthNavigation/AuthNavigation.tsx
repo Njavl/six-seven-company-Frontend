@@ -47,8 +47,14 @@ export default function AuthNavigation({
         onClick={() => setIsMobileMenuOpen(true)}
         aria-label="Open menu"
       >
-        <svg width="24" height="24" aria-hidden="true">
-          <use href="/icons/sprite.svg#icon-menu" />
+        <svg
+          width="24"
+          height="24"
+          fill="none"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <use href="#icon-menu" />
         </svg>
       </button>
 

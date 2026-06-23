@@ -35,6 +35,15 @@ export default function MobileMenu({
     <div className={css.mobileMenuOverlay} role="dialog" aria-modal="true">
       <div className={css.mobileMenuHeader}>
         <Link href={ROUTES.HOME} className={css.logo} onClick={onClose}>
+          <svg
+            className={css.logoIcon}
+            width="32"
+            height="30"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <use href="#icon-logo" />
+          </svg>
           Tasteorama
         </Link>
         <button
@@ -43,8 +52,14 @@ export default function MobileMenu({
           onClick={onClose}
           aria-label="Close menu"
         >
-          <svg width="24" height="24" aria-hidden="true">
-            <use href="/icons/sprite.svg#icon-close" />
+          <svg
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <use href="#icon-exit" />
           </svg>
         </button>
       </div>

@@ -61,8 +61,14 @@ export default function NavLinks({
               className={css.logoutButton}
               aria-label="Log out"
             >
-              <svg width="24" height="24" aria-hidden="true">
-                <use href="/icons/sprite.svg#icon-logout" />
+              <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <use href="#icon-logOut" />
               </svg>
             </button>
           </div>

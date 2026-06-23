@@ -8,6 +8,15 @@ export default function Header() {
     <header className={css.header}>
       <div className={css.container}>
         <Link href={ROUTES.HOME} className={css.logo}>
+          <svg
+            className={css.logoIcon}
+            width="32"
+            height="30"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <use href="#icon-logo" />
+          </svg>
           Tasteorama
         </Link>
         <AuthNavigation variant="header" />

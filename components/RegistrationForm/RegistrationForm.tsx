@@ -142,10 +142,16 @@ export default function RegistrationForm() {
                       showPassword ? 'Hide password' : 'Show password'
                     }
                   >
-                    <svg width="20" height="20" aria-hidden="true">
+                    <svg
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
                       <use
-                        href={`/icons/sprite.svg#icon-${
-                          showPassword ? 'eye-off' : 'eye'
+                        href={`#icon-${
+                          showPassword ? 'hidePassword' : 'showPassword'
                         }`}
                       />
                     </svg>
@@ -187,10 +193,16 @@ export default function RegistrationForm() {
                         : 'Show password'
                     }
                   >
-                    <svg width="20" height="20" aria-hidden="true">
+                    <svg
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
                       <use
-                        href={`/icons/sprite.svg#icon-${
-                          showRepeatPassword ? 'eye-off' : 'eye'
+                        href={`#icon-${
+                          showRepeatPassword ? 'hidePassword' : 'showPassword'
                         }`}
                       />
                     </svg>
