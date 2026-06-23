@@ -1,17 +1,15 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import Image from 'next/image';
-import Link from 'next/link';
 import {
   getFavoriteRecipes,
   getOwnRecipes,
   searchRecipes,
 } from '@/lib/api/clientApi';
 import { useFilters } from '@/lib/hooks/useFilters';
-import { ROUTES } from '@/lib/constants/routes';
 import { QUERY_KEYS } from '@/lib/constants/query-keys';
-import type { Recipe, RecipeListResponse } from '@/types/recipe';
+import type { RecipeListResponse } from '@/types/recipe';
+import RecipeCard from '../RecipeCard/RecipeCard';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import Loader from '../Loader/Loader';
 import styles from './RecipesList.module.css';
@@ -107,7 +105,15 @@ export default function RecipesList({
       <ul className={styles.grid}>
         {recipes.map(recipe => (
           <li key={recipe._id}>
-            <RecipePreviewCard recipe={recipe} />
+            <RecipeCard
+              id={recipe._id}
+              title={recipe.title}
+              thumb={recipe.thumb}
+              time={recipe.time}
+              description={recipe.description}
+              calories={recipe.calories}
+              isFavorite={source === 'favorites'}
+            />
           </li>
         ))}
       </ul>
@@ -119,54 +125,5 @@ export default function RecipesList({
         />
       )}
     </div>
-  );
-}
-
-function RecipePreviewCard({ recipe }: { recipe: Recipe }) {
-  return (
-    <article className={styles.card}>
-      <div className={styles.thumb}>
-        {recipe.thumb && (
-          <Image
-            alt={recipe.title}
-            className={styles.thumbImage}
-            fill
-            sizes="(min-width: 1440px) 320px, (min-width: 1024px) 30vw, (min-width: 768px) 45vw, 90vw"
-            src={recipe.thumb}
-          />
-        )}
-      </div>
-      <div className={styles.body}>
-        <div className={styles.head}>
-          <h3 className={styles.cardTitle}>{recipe.title}</h3>
-          {recipe.time && (
-            <span className={styles.badge}>
-              <svg className={styles.badgeIcon} aria-hidden="true">
-                <use href="/icons/sprite.svg#icon-clock" />
-              </svg>
-              {recipe.time}
-            </span>
-          )}
-        </div>
-        <p className={styles.description}>{recipe.description}</p>
-        {recipe.calories != null && (
-          <p className={styles.calories}>~{recipe.calories} cals</p>
-        )}
-        <div className={styles.actions}>
-          <Link className={styles.learnMore} href={ROUTES.RECIPE(recipe._id)}>
-            Learn more
-          </Link>
-          <button
-            aria-label="Save recipe"
-            className={styles.save}
-            type="button"
-          >
-            <svg className={styles.saveIcon} aria-hidden="true">
-              <use href="/icons/sprite.svg#icon-bookmark" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </article>
   );
 }
