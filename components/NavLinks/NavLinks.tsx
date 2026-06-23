@@ -1,26 +1,47 @@
+'use client';
 import Link from 'next/link';
 import useAuthStore from '@/lib/store/authStore';
-import css from '../AuthNavigation/AuthNavigation.module.css'; 
+import { ROUTES } from '@/lib/constants/routes';
+import css from '../AuthNavigation/AuthNavigation.module.css';
 
 interface NavLinksProps {
   isAuthenticated: boolean;
   onLogout: () => void;
-  onOpenLogin: () => void;
   onClose?: () => void;
   variant: 'header' | 'mobile';
 }
 
-export default function NavLinks({ isAuthenticated, onLogout, onOpenLogin, onClose, 
-    variant }: NavLinksProps) {
-    const containerClass = variant === 'mobile' ? css.mobileList : css.desktopList;
-    const { user } = useAuthStore();
+export default function NavLinks({
+  isAuthenticated,
+  onLogout,
+  onClose,
+  variant,
+}: NavLinksProps) {
+  const containerClass =
+    variant === 'mobile' ? css.mobileList : css.desktopList;
+  const { user } = useAuthStore();
+
   return (
     <div className={containerClass}>
       {isAuthenticated ? (
-        <div className={css.authGroup}>  
-          <Link href="/" className={css.navLink} onClick={onClose}>Recipes</Link>
-          <Link href="/profile" className={css.navLink} onClick={onClose}>My Profile</Link>
-          <Link href="/add-recipe" className={css.addRecipeBtn} onClick={onClose}>Add Recipe</Link>
+        <div className={css.authGroup}>
+          <Link href={ROUTES.HOME} className={css.navLink} onClick={onClose}>
+            Recipes
+          </Link>
+          <Link
+            href={`${ROUTES.PROFILE}/own`}
+            className={css.navLink}
+            onClick={onClose}
+          >
+            My Profile
+          </Link>
+          <Link
+            href={ROUTES.ADD_RECIPE}
+            className={css.addRecipeBtn}
+            onClick={onClose}
+          >
+            Add Recipe
+          </Link>
           <div className={css.userNav}>
             <div className={css.userAvatar}>
               {user?.name
@@ -31,20 +52,42 @@ export default function NavLinks({ isAuthenticated, onLogout, onOpenLogin, onClo
               <strong>{user?.name || 'User'}</strong>
             </span>
             <span className={css.divider}></span>
-            <button onClick={() => { onLogout(); onClose?.(); }} className={css.logoutButton}>
-                <svg width="24" height="24" aria-hidden="true">
+            <button
+              type="button"
+              onClick={() => {
+                onLogout();
+                onClose?.();
+              }}
+              className={css.logoutButton}
+              aria-label="Log out"
+            >
+              <svg width="24" height="24" aria-hidden="true">
                 <use href="/icons/sprite.svg#icon-logout" />
-                </svg>
-           </button>
+              </svg>
+            </button>
           </div>
         </div>
       ) : (
         <div className={css.guestGroup}>
-          <Link href="/" className={css.navLink} onClick={onClose}>Recipes</Link>
-          <Link href="/auth/login" className={css.linkButton} onClick={onClose}>Log in</Link>
-          <Link href="/auth/register" className={css.registerBtn} onClick={onClose}>Register</Link>
+          <Link href={ROUTES.HOME} className={css.navLink} onClick={onClose}>
+            Recipes
+          </Link>
+          <Link
+            href={ROUTES.LOGIN}
+            className={css.linkButton}
+            onClick={onClose}
+          >
+            Log in
+          </Link>
+          <Link
+            href={ROUTES.REGISTER}
+            className={css.registerBtn}
+            onClick={onClose}
+          >
+            Register
+          </Link>
         </div>
       )}
-    </div>  
+    </div>
   );
 }

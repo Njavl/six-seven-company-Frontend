@@ -1,74 +1,49 @@
-.closeBtn {
-    align-self: flex-end;
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 40px;
-}
-
-.menuList {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.menuLink {
-    color: #111;
-    text-decoration: none;
-}
 .mobileMenuOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--color-brown-dark);
-    display: flex;
-    flex-direction: column;
-    z-index: 9999;
-    padding: 20px;
-    overflow: hidden;
-}
-
-.closeBtn {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    color: white;
-    background: transparent;
-    border: none;
-}
-
-.closeButton:hover {
-    color: var(--color-accent);
-}
-
-.mobileList {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-brown-dark);
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+  padding: 20px;
+  overflow: hidden;
 }
 
 .mobileMenuHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 40px;
 }
 
 .logo {
-    color: white;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 24px;
+  color: var(--color-white);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.closeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--color-white);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  color: var(--color-accent);
+}
+
+.menuNav {
+  width: 100%;
 }
