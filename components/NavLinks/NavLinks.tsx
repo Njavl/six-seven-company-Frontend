@@ -23,7 +23,6 @@ export default function NavLinks({
   const { user } = useAuthStore();
   const pathname = usePathname();
 
-  // Appends the active-page underline to any nav item (text links or buttons).
   const withActive = (base: string, active: boolean) =>
     active ? `${base} ${css.navLinkActive}` : base;
 
