@@ -3,7 +3,7 @@
     justify-content: center;
     width: 100%;
     padding-top: 48px;
-    background: var(--background);
+    background: var(--color-bg);
 }
 
 .containerRecipe {
@@ -79,25 +79,25 @@
 @media (min-width: 1440px) {
     .thumb {
         width: 1224px;
-        background: #000;
+        background: var(--color-black);
         padding-left: calc((1224px - 704px) / 2);
         padding-right: calc((1224px - 704px) / 2);
     }
 }
 
 .title {
-    font-family: var(--font-family);
+    font-family: var(--font-main);
     font-weight: 600;
     font-size: 40px;
-    color: var(--black);
+    color: var(--color-black);
     margin: 0;
 }
 
 .subTitle {
-    font-family: var(--font-family);
+    font-family: var(--font-main);
     font-weight: 600;
     font-size: 32px;
-    color: var(--black);
+    color: var(--color-black);
     margin: 0 0 8px;
 }
 
@@ -109,7 +109,7 @@
 }
 
 .textBlok {
-    background: var(--light-beige);
+    background: var(--color-cream);
     border-radius: 16px;
     padding: 16px;
     display: flex;
@@ -123,15 +123,15 @@
 }
 
 .textSpan {
-    font-family: var(--font-family);
+    font-family: var(--font-main);
     font-weight: 600;
-    color: var(--black);
+    color: var(--color-black);
 }
 
 .text {
-    font-family: var(--font-family);
+    font-family: var(--font-main);
     line-height: 1.55;
-    color: var(--black);
+    color: var(--color-black);
     margin: 0;
 }
 
@@ -146,14 +146,30 @@
     gap: 16px;
     border: none;
     border-radius: 8px;
-    background: var(--light-brown);
+    background: var(--color-accent);
     padding: 16px;
     max-width: 361px;
     width: 100%;
-    font-family: var(--font-family);
+    font-family: var(--font-main);
     font-weight: 600;
     font-size: 18px;
-    color: var(--white);
+    color: var(--color-white);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.saveButton:hover {
+    opacity: 0.9;
+}
+
+.saveButton:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+.saveButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 @media (min-width: 768px) {
@@ -182,7 +198,7 @@
 
 .icon {
     stroke-width: 1px;
-    stroke: var(--white);
+    stroke: var(--color-white);
     fill: transparent;
 }
 
@@ -206,7 +222,7 @@
     top: 0.6em;
     width: 2.5px;
     height: 2.5px;
-    background-color: #000;
+    background-color: var(--color-black);
     border-radius: 50%;
 }
 
