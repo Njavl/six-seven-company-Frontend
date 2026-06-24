@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import useAuthStore from '@/lib/store/authStore';
 import { ROUTES } from '@/lib/constants/routes';
 import css from '../AuthNavigation/AuthNavigation.module.css';
@@ -20,17 +21,25 @@ export default function NavLinks({
   const containerClass =
     variant === 'mobile' ? css.mobileList : css.desktopList;
   const { user } = useAuthStore();
+  const pathname = usePathname();
+
+  const linkClass = (active: boolean) =>
+    active ? `${css.navLink} ${css.navLinkActive}` : css.navLink;
 
   return (
     <div className={containerClass}>
       {isAuthenticated ? (
         <div className={css.authGroup}>
-          <Link href={ROUTES.HOME} className={css.navLink} onClick={onClose}>
+          <Link
+            href={ROUTES.HOME}
+            className={linkClass(pathname === ROUTES.HOME)}
+            onClick={onClose}
+          >
             Recipes
           </Link>
           <Link
             href={`${ROUTES.PROFILE}/own`}
-            className={css.navLink}
+            className={linkClass(pathname.startsWith(ROUTES.PROFILE))}
             onClick={onClose}
           >
             My Profile
@@ -75,7 +84,11 @@ export default function NavLinks({
         </div>
       ) : (
         <div className={css.guestGroup}>
-          <Link href={ROUTES.HOME} className={css.navLink} onClick={onClose}>
+          <Link
+            href={ROUTES.HOME}
+            className={linkClass(pathname === ROUTES.HOME)}
+            onClick={onClose}
+          >
             Recipes
           </Link>
           <Link
