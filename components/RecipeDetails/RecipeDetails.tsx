@@ -37,12 +37,12 @@ export default function RecipeDetails({ data }: RecipeDetailsProps) {
                 {data.time} minutes
               </p>
 
-               {data.calories && (
-                <p className={css.text}>
-                  <span className={css.textSpan}>Caloric content: </span>
-                  Approximately {data.calories} kcal per serving
-                </p>
-              )}
+              <p className={css.text}>
+                <span className={css.textSpan}>Caloric content: </span>
+                {data.calories
+                  ? `Approximately ${data.calories} kcal per serving`
+                  : 'N/A'}
+              </p>
             </div>
 
             <SaveButton

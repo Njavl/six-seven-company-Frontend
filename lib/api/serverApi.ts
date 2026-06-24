@@ -20,6 +20,16 @@ export async function checkSession(
   });
 }
 
+// Validates the current session (throws on 401). Used by middleware to confirm
+// an `accessToken` cookie is actually valid before treating the user as logged in.
+export async function getCurrentUser(
+  cookieHeader: string
+): Promise<AxiosResponse> {
+  return serverApi.get('/users/current', {
+    headers: { Cookie: cookieHeader },
+  });
+}
+
 export async function getRecipeById(recipeId: string): Promise<Recipe> {
   const { data } = await serverApi.get<Recipe>(`/recipes/${recipeId}`);
   return data;

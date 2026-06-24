@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parse } from 'cookie';
-import { checkSession } from '@/lib/api/serverApi';
+import { checkSession, getCurrentUser } from '@/lib/api/serverApi';
 
 const privateRoutes = ['/add-recipe', '/profile'];
 const publicRoutes = ['/auth/login', '/auth/register'];
@@ -64,7 +64,17 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isPublicRoute) {
-    return NextResponse.redirect(new URL('/', request.url));
+    try {
+      await getCurrentUser(request.headers.get('cookie') ?? '');
+      return NextResponse.redirect(new URL('/', request.url));
+    } catch {
+      // Stale/invalid token: clear it so it stops blocking the auth pages.
+      const response = NextResponse.next();
+      response.cookies.delete('accessToken');
+      response.cookies.delete('refreshToken');
+      response.cookies.delete('sessionId');
+      return response;
+    }
   }
 
   return NextResponse.next();

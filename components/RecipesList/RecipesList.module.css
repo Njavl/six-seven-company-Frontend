@@ -5,6 +5,14 @@
   gap: 24px;
 }
 
+.count {
+  align-self: flex-start;
+  margin: 0;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--color-text-body);
+}
+
 .grid {
   width: 100%;
   display: grid;

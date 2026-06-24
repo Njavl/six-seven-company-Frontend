@@ -55,8 +55,8 @@ const initialValues: FormValues = {
 
 function CameraIcon() {
   return (
-    <svg className={styles.cameraIcon} fill="currentColor" aria-hidden="true">
-      <use href="#icon-placeholder" />
+    <svg className={styles.cameraIcon} aria-hidden="true">
+      <use href="#icon-Media" />
     </svg>
   );
 }
@@ -264,6 +264,10 @@ export default function AddRecipeForm() {
                       );
                       if (!ingredient || !draftMeasure.trim()) {
                         toast.error('Select an ingredient and its amount.');
+                        return;
+                      }
+                      if (draftMeasure.trim().startsWith('-')) {
+                        toast.error('Amount cannot be negative.');
                         return;
                       }
                       arrayHelpers.push({

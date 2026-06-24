@@ -66,9 +66,9 @@ export default function RecipeCard({
 
           <div className={styles.descriptionContainer}>
             <p className={styles.description}>{description}</p>
-            {calories ? (
-              <p className={styles.calories}>~{calories} cals</p>
-            ) : null}
+            <p className={styles.calories}>
+              {calories ? `~${calories} cals` : 'N/A'}
+            </p>
           </div>
 
           <div className={styles.buttonContainer}>

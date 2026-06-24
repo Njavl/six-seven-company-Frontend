@@ -23,8 +23,9 @@ export default function NavLinks({
   const { user } = useAuthStore();
   const pathname = usePathname();
 
-  const linkClass = (active: boolean) =>
-    active ? `${css.navLink} ${css.navLinkActive}` : css.navLink;
+  // Appends the active-page underline to any nav item (text links or buttons).
+  const withActive = (base: string, active: boolean) =>
+    active ? `${base} ${css.navLinkActive}` : base;
 
   return (
     <div className={containerClass}>
@@ -32,21 +33,27 @@ export default function NavLinks({
         <div className={css.authGroup}>
           <Link
             href={ROUTES.HOME}
-            className={linkClass(pathname === ROUTES.HOME)}
+            className={withActive(css.navLink, pathname === ROUTES.HOME)}
             onClick={onClose}
           >
             Recipes
           </Link>
           <Link
             href={`${ROUTES.PROFILE}/own`}
-            className={linkClass(pathname.startsWith(ROUTES.PROFILE))}
+            className={withActive(
+              css.navLink,
+              pathname.startsWith(ROUTES.PROFILE)
+            )}
             onClick={onClose}
           >
             My Profile
           </Link>
           <Link
             href={ROUTES.ADD_RECIPE}
-            className={css.addRecipeBtn}
+            className={withActive(
+              css.addRecipeBtn,
+              pathname.startsWith(ROUTES.ADD_RECIPE)
+            )}
             onClick={onClose}
           >
             Add Recipe
@@ -86,21 +93,27 @@ export default function NavLinks({
         <div className={css.guestGroup}>
           <Link
             href={ROUTES.HOME}
-            className={linkClass(pathname === ROUTES.HOME)}
+            className={withActive(css.navLink, pathname === ROUTES.HOME)}
             onClick={onClose}
           >
             Recipes
           </Link>
           <Link
             href={ROUTES.LOGIN}
-            className={css.linkButton}
+            className={withActive(
+              css.linkButton,
+              pathname.startsWith(ROUTES.LOGIN)
+            )}
             onClick={onClose}
           >
             Log in
           </Link>
           <Link
             href={ROUTES.REGISTER}
-            className={css.registerBtn}
+            className={withActive(
+              css.registerBtn,
+              pathname.startsWith(ROUTES.REGISTER)
+            )}
             onClick={onClose}
           >
             Register
