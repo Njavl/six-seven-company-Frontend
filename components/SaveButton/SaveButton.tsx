@@ -9,26 +9,24 @@ import styles from './SaveButton.module.css';
 interface SaveButtonProps {
   recipeId: string;
   isFavoriteInitial?: boolean;
+  onAuthRequired?: () => void;
 }
 
 export default function SaveButton({
   recipeId,
   isFavoriteInitial = false,
+  onAuthRequired,
 }: SaveButtonProps) {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const setFavorite = useAuthStore((state) => state.setFavorite);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const setFavorite = useAuthStore(state => state.setFavorite);
   const inFavorites = useAuthStore(
-    (state) => state.user?.favorites?.includes(recipeId) ?? false
+    state => state.user?.favorites?.includes(recipeId) ?? false
   );
   const [isFavorite, setIsFavorite] = useState(
     inFavorites || isFavoriteInitial
   );
   const [isLoading, setIsLoading] = useState(false);
 
-  // The user (and their favorites) loads asynchronously on mount, so sync the
-  // saved state to the store once it arrives — otherwise saved recipes stay
-  // unmarked on reload. The store is the source of truth for an authed user;
-  // `isFavoriteInitial` is only a first-paint hint (see the useState seed).
   useEffect(() => {
     if (isAuthenticated) setIsFavorite(inFavorites);
   }, [isAuthenticated, inFavorites]);
@@ -38,7 +36,11 @@ export default function SaveButton({
     e.stopPropagation();
 
     if (!isAuthenticated) {
-      toast.error('Please log in to save recipes.');
+      if (onAuthRequired) {
+        onAuthRequired();
+      } else {
+        toast.error('Please log in to save recipes.');
+      }
       return;
     }
 
