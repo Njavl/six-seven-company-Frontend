@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import useAuthStore from '@/lib/store/authStore';
 import { addFavorite, removeFavorite } from '@/lib/api/clientApi';
+import { QUERY_KEYS } from '@/lib/constants/query-keys';
 import AuthAlertModal from '@/components/AuthAlertModal/AuthAlertModal';
 import styles from './SaveButton.module.css';
 
@@ -22,6 +24,7 @@ export default function SaveButton({
   variant = 'icon',
   className,
 }: SaveButtonProps) {
+  const queryClient = useQueryClient();
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
   const setFavorite = useAuthStore(state => state.setFavorite);
   const inFavorites = useAuthStore(
@@ -63,6 +66,9 @@ export default function SaveButton({
         await addFavorite(recipeId);
       }
       setFavorite(recipeId, !previousFavorite);
+      // Refresh recipe lists (search / own / favorites) so an un-saved card
+      // drops off the Saved tab immediately instead of after a manual reload.
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.RECIPES] });
     } catch {
       setIsFavorite(previousFavorite);
       toast.error('Could not update favorites. Please try again.');

@@ -11,7 +11,7 @@ import {
   FieldArray,
   type FormikHelpers,
 } from 'formik';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 import {
@@ -63,6 +63,7 @@ function CameraIcon() {
 
 export default function AddRecipeForm() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data: categories = [] } = useQuery({
     queryKey: [QUERY_KEYS.CATEGORIES],
@@ -103,6 +104,9 @@ export default function AddRecipeForm() {
         })),
         recipeImg: values.image,
       });
+      // Refresh recipe lists so the new recipe appears in the profile tabs
+      // (My recipes / Saved) without needing a manual page reload.
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.RECIPES] });
       toast.success('Recipe published!');
       router.push(ROUTES.RECIPE(recipe._id));
     } catch {
