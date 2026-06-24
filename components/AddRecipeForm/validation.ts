@@ -42,7 +42,12 @@ export const addRecipeSchema = Yup.object({
       Yup.object({
         id: Yup.string().required(),
         name: Yup.string().required(),
-        measure: Yup.string().trim().min(1).max(32).required(),
+        measure: Yup.string()
+          .trim()
+          .min(1)
+          .max(32)
+          .matches(/^[^-]/, 'Amount cannot be negative')
+          .required(),
       })
     )
     .min(1, 'Add at least one ingredient'),

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   getCategories,
@@ -22,6 +22,20 @@ export default function Filters() {
     resetFilters,
   } = useFilters();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Lock body scroll while the mobile filter modal is open.
+  useEffect(() => {
+    if (!isOpen) return;
+    document.body.style.overflow = 'hidden';
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isOpen]);
 
   const { data: categories = [] } = useQuery({
     queryKey: [QUERY_KEYS.CATEGORIES],

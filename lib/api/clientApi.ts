@@ -140,4 +140,8 @@ export async function removeFavorite(recipeId: string): Promise<void> {
   await api.delete(`/recipes/${recipeId}/favorite`);
 }
 
+export async function deleteRecipe(recipeId: string): Promise<void> {
+  await api.delete(`/recipes/${recipeId}`);
+}
+
 export { api };

@@ -92,12 +92,24 @@ export default function RecipesList({
 
   const recipes = data.recipes;
 
+  // Profile tabs (own/favorites) show a recipe count; search shows it via Filters.
+  const countLabel =
+    source !== 'search' ? (
+      <p className={styles.count}>{data.total} recipes</p>
+    ) : null;
+
   if (recipes.length === 0) {
-    return <p className={styles.status}>{emptyText[source]}</p>;
+    return (
+      <div className={styles.wrapper}>
+        {countLabel}
+        <p className={styles.status}>{emptyText[source]}</p>
+      </div>
+    );
   }
 
   return (
     <div className={styles.wrapper}>
+      {countLabel}
       <ul className={styles.grid}>
         {recipes.map(recipe => (
           <li key={recipe._id}>
@@ -109,6 +121,7 @@ export default function RecipesList({
               description={recipe.description}
               calories={recipe.calories}
               isFavorite={source === 'favorites'}
+              showDelete={source === 'own'}
             />
           </li>
         ))}

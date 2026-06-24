@@ -1,12 +1,15 @@
 .footer {
   background-color: var(--color-brown-dark);
-  padding: 24px 108px;
 }
 
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 24px;
 }
 
 .logo {
