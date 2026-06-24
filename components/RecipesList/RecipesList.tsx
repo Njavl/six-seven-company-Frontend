@@ -14,6 +14,7 @@ import RecipeCard from '../RecipeCard/RecipeCard';
 import Pagination from '../Pagination/Pagination';
 import Loader from '../Loader/Loader';
 import styles from './RecipesList.module.css';
+import EmptySearch from '../EmptySearch/EmptySearch';
 
 type Source = 'search' | 'own' | 'favorites';
 
@@ -93,6 +94,16 @@ export default function RecipesList({
   const recipes = data.recipes;
 
   if (recipes.length === 0) {
+    if (source === 'search') {
+      return (
+        <EmptySearch
+          onReset={() => {
+            filters.resetFilters();
+            filters.setSearch('');
+          }}
+        />
+      );
+    }
     return <p className={styles.status}>{emptyText[source]}</p>;
   }
 
