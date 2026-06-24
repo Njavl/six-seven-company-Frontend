@@ -69,6 +69,9 @@ export default function SaveButton({
       // Refresh recipe lists (search / own / favorites) so an un-saved card
       // drops off the Saved tab immediately instead of after a manual reload.
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.RECIPES] });
+      toast.success(
+        previousFavorite ? 'Removed from saved' : 'Saved to favorites'
+      );
     } catch {
       setIsFavorite(previousFavorite);
       toast.error('Could not update favorites. Please try again.');

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import SaveButton from '../SaveButton/SaveButton';
+import DeleteButton from '../DeleteButton/DeleteButton';
 import AuthAlertModal from '@/components/AuthAlertModal/AuthAlertModal';
 import { ROUTES } from '@/lib/constants/routes';
 import styles from './RecipeCard.module.css';
@@ -16,6 +17,7 @@ interface RecipeCardProps {
   description: string;
   calories?: number | null;
   isFavorite?: boolean;
+  showDelete?: boolean;
 }
 
 export default function RecipeCard({
@@ -26,6 +28,7 @@ export default function RecipeCard({
   description,
   calories,
   isFavorite = false,
+  showDelete = false,
 }: RecipeCardProps) {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -80,6 +83,7 @@ export default function RecipeCard({
               isFavoriteInitial={isFavorite}
               onAuthRequired={() => setIsAuthModalOpen(true)}
             />
+            {showDelete && <DeleteButton recipeId={id} />}
           </div>
         </div>
       </div>

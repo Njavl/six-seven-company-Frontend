@@ -42,7 +42,7 @@ export default function RootLayout({
             <Header />
             <main>{children}</main>
             <Footer />
-            <Toaster position="top-right" />
+            <Toaster position="top-center" />
           </AuthProvider>
         </TanStackProvider>
       </body>

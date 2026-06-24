@@ -121,6 +121,7 @@ export default function RecipesList({
               description={recipe.description}
               calories={recipe.calories}
               isFavorite={source === 'favorites'}
+              showDelete={source === 'own'}
             />
           </li>
         ))}
