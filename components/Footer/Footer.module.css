@@ -10,12 +10,19 @@
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   text-decoration: none;
-  color:var(--color-white);
+  color: var(--color-white);
   font-size: 18px;
   letter-spacing: -0.03em;
   font-weight: 600;
-  
+}
+
+.logoIcon {
+  flex-shrink: 0;
+  fill: currentColor;
 }
 
 .copyright {
@@ -45,7 +52,7 @@
   }
 
   .footer {
-    padding: 24px 243px;
+    padding: 24px 32px;
   }
 
   .logo {

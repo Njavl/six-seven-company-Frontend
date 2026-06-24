@@ -1,141 +1,198 @@
-/* .userEmail {
-    color: white;
-    margin-right: 0.5rem;
-    font-size: 0.9rem;
+.nav {
+  display: flex;
+  align-items: center;
 }
 
-.logoutButton {
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.registerBtn,
+.addRecipeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.logoutButton:hover {
-    background-color: white;
-    color: #333;
-} */
-
-/* .navigationItem {
-    display: flex;
-    align-items: center;
+.registerBtn:hover,
+.registerBtn:focus,
+.addRecipeBtn:hover,
+.addRecipeBtn:focus {
+  background-color: var(--color-brown-dark);
+  outline: none;
 }
 
-.navigationLink {
-    text-decoration: none;
-    color: white;
-    font-size: 1rem;
+.registerBtn:active,
+.addRecipeBtn:active {
+  background-color: var(--color-brown-dark);
+  transform: scale(0.98);
 }
 
-.navigationLink:hover {
-    color: #ddd;
-} */
-
-.registerBtn {
-    background-color: #9B6C43;
-    padding: 8px 16px;
-    border-radius: 5px;
-    text-decoration: none;
-    color: white;
-    font-weight: 600;
-    font-size: 16px;
-}
-
-.registerBtn:hover {
-    text-decoration: none;
-    /* Кнопка не должна подчеркиваться */
-    opacity: 0.9;
+.registerBtn:disabled,
+.addRecipeBtn:disabled {
+  background-color: var(--color-border);
+  color: var(--color-text-placeholder);
+  cursor: not-allowed;
 }
 
 .navLink {
-    color: #ffffff;
-    /* Цвет ссылок — белый */
-    text-decoration: none;
-    /* Убираем стандартное подчеркивание */
-    transition: text-decoration 0.2s;
-    /* Плавный эффект появления */
-    font-size: 12px;
-    font-weight: 600;
+  color: var(--color-white);
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .navLink:hover {
-    text-decoration: underline;
-    /* Подчеркивание при наведении */
-    text-decoration-color: #ffffff;
-    /* Цвет подчеркивания — белый */
-    text-underline-offset: 6px;
-    /* Небольшой отступ от текста до линии */
+  text-decoration: underline;
+  text-decoration-color: var(--color-white);
+  text-underline-offset: 6px;
 }
 
 .userAvatar {
-    width: 32px;
-    /* Размер круга */
-    height: 32px;
-    background-color: #9B6C43;
-    /* Цвет из вашего макета */
-    color: white;
-    border-radius: 50%;
-    /* Делает элемент круглым */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 18px;
-    margin-right: 8.5px;
-    text-transform: uppercase;
-    /* Гарантирует заглавную букву */
-    cursor: pointer;
-    /* border: 2px solid rgba(255, 255, 255, 0.2); */
-    /* Легкая обводка */
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 8.5px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
-.authGroup {
-    display: flex;
-    align-items: center;
-    gap: 32px;
+.userName {
+  font-size: 14px;
+  color: var(--color-white);
+  font-weight: 600;
 }
 
-.guestGroup{
-    display: flex;
-    align-items: center;
-    gap: 32px;
+.userName strong {
+  color: var(--color-white);
+}
+
+.authGroup,
+.guestGroup {
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
 .divider {
-    width: 1px;
-    height: 39px;
-    background-color: white;
-    margin: 0 16px;
+  width: 1px;
+  height: 39px;
+  background-color: var(--color-white);
+  margin: 0 16px;
 }
 
 .userNav {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .logoutButton {
-    width: 24px;
-    height: 24px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    color: #ffffff;
-    background: transparent;
-    border: none;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--color-white);
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-/* --- Планшеты (до 1440px) --- */
-@media screen and (max-width: 1439px) {}
+.linkButton {
+  color: var(--color-white);
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: text-decoration 0.2s;
+}
+
+.linkButton:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--color-white);
+  text-underline-offset: 6px;
+}
+
+.desktopList {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.menuOpenBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--color-white);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
 
 /* --- Мобильные (до 768px) --- */
 @media screen and (max-width: 767px) {
-    .authGroup {
-        display: none;
-    }
+  .desktopList {
+    display: none;
+  }
 
+  .menuOpenBtn {
+    display: flex;
+  }
+
+  .mobileList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .mobileList .authGroup,
+  .mobileList .guestGroup {
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+  }
+
+  .mobileList .registerBtn,
+  .mobileList .addRecipeBtn,
+  .mobileList .linkButton {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .mobileList .addRecipeBtn {
+    order: 4;
+  }
+
+  .mobileList .addRecipeBtn,
+  .mobileList .registerBtn {
+    width: 100%;
+    max-width: 361px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
 }

@@ -38,8 +38,11 @@ dist-ssr
 /out/
 /build
 
+
+*screenshot*
 tz
 claude*
+MOCKUP-NOTES*
 FRONTEND-PLAN.md
 *.tsbuildinfo
 next-env.d.ts

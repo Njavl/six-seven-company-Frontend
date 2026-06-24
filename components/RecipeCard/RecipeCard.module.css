@@ -1,0 +1,154 @@
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-accent);
+  overflow: hidden;
+}
+
+.image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 337 / 230;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--color-white);
+}
+
+.image :global(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.noPhoto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-white);
+  color: var(--color-text-placeholder);
+  font-size: 14px;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 12px;
+}
+
+.titleContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 58px;
+  margin-top: 16px;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  margin-right: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.timeCont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 53px;
+  height: 28px;
+  margin-top: 2px;
+  padding: 0 4px;
+  border-radius: var(--radius-xs);
+  background-color: var(--color-white);
+}
+
+.timeSvg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  color: var(--color-text-body);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.descriptionContainer {
+  margin-top: 16px;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 50px;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 16px;
+}
+
+.calories {
+  margin-top: 8px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.button {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.button:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}

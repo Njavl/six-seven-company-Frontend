@@ -7,6 +7,7 @@ import TanStackProvider from '../components/TanStackProvider/TanStackProvider';
 import AuthProvider from '../components/AuthProvider/AuthProvider';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import SpriteSheet from '../components/SpriteSheet/SpriteSheet';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -35,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={montserrat.variable}>
       <body>
+        <SpriteSheet />
         <TanStackProvider>
           <AuthProvider>
             <Header />

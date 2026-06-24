@@ -1,25 +1,25 @@
 import Link from 'next/link';
-import css from './Header.module.css';
-import AuthNavigation from '../AuthNavigation/AuthNavigation';
 import { ROUTES } from '@/lib/constants/routes';
+import AuthNavigation from '../AuthNavigation/AuthNavigation';
+import css from './Header.module.css';
 
 export default function Header() {
   return (
     <header className={css.header}>
       <div className={css.container}>
         <Link href={ROUTES.HOME} className={css.logo}>
+          <svg
+            className={css.logoIcon}
+            width="32"
+            height="30"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <use href="#icon-logo" />
+          </svg>
           Tasteorama
         </Link>
-
-        <nav className={css.nav}>
-          <AuthNavigation />
-        </nav>
-
-        <button className={css.menuOpenBtn} type="button" aria-label="Open menu">
-          <svg width="24" height="24" aria-hidden="true">
-            <use href="/icons/sprite.svg#icon-menu" />
-          </svg>
-        </button>
+        <AuthNavigation variant="header" />
       </div>
     </header>
   );

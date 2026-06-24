@@ -1,18 +1,17 @@
 'use client';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   getFavoriteRecipes,
   getOwnRecipes,
   searchRecipes,
 } from '@/lib/api/clientApi';
 import { useFilters } from '@/lib/hooks/useFilters';
-import { ROUTES } from '@/lib/constants/routes';
 import { QUERY_KEYS } from '@/lib/constants/query-keys';
-import type { Recipe, RecipeListResponse } from '@/types/recipe';
-import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
+import type { RecipeListResponse } from '@/types/recipe';
+import RecipeCard from '../RecipeCard/RecipeCard';
+import Pagination from '../Pagination/Pagination';
 import Loader from '../Loader/Loader';
 import styles from './RecipesList.module.css';
 
@@ -54,30 +53,25 @@ export default function RecipesList({
   const category = isSearch ? filters.category : '';
   const ingredient = isSearch ? filters.ingredient : '';
 
-  const {
-    data,
-    isPending,
-    isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
+  // For search, page lives in the URL/store (useFilters resets it to 1 on filter
+  // changes). Profile lists (own/favorites) have no filters, so they keep a local
+  // page that resets when the tab (source) switches.
+  const [localPage, setLocalPage] = useState(1);
+  useEffect(() => {
+    setLocalPage(1);
+  }, [source]);
+
+  const page = isSearch ? filters.page : localPage;
+  const handlePageChange = isSearch ? filters.setPage : setLocalPage;
+
+  const { data, isPending, isError } = useQuery({
     queryKey: [
       QUERY_KEYS.RECIPES,
       source,
-      { search, category, ingredient, perPage },
+      { search, category, ingredient, perPage, page },
     ],
-    queryFn: ({ pageParam }) =>
-      fetchers[source]({
-        page: pageParam,
-        perPage,
-        search,
-        category,
-        ingredient,
-      }),
-    initialPageParam: 1,
-    getNextPageParam: lastPage =>
-      lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
+    queryFn: () =>
+      fetchers[source]({ page, perPage, search, category, ingredient }),
   });
 
   if (isPending) {
@@ -96,7 +90,7 @@ export default function RecipesList({
     );
   }
 
-  const recipes = data.pages.flatMap(page => page.recipes);
+  const recipes = data.recipes;
 
   if (recipes.length === 0) {
     return <p className={styles.status}>{emptyText[source]}</p>;
@@ -107,66 +101,24 @@ export default function RecipesList({
       <ul className={styles.grid}>
         {recipes.map(recipe => (
           <li key={recipe._id}>
-            <RecipePreviewCard recipe={recipe} />
+            <RecipeCard
+              id={recipe._id}
+              title={recipe.title}
+              thumb={recipe.thumb}
+              time={recipe.time}
+              description={recipe.description}
+              calories={recipe.calories}
+              isFavorite={source === 'favorites'}
+            />
           </li>
         ))}
       </ul>
 
-      {hasNextPage && (
-        <LoadMoreBtn
-          onClick={() => fetchNextPage()}
-          isLoading={isFetchingNextPage}
-        />
-      )}
+      <Pagination
+        currentPage={page}
+        totalPages={data.totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
-  );
-}
-
-function RecipePreviewCard({ recipe }: { recipe: Recipe }) {
-  return (
-    <article className={styles.card}>
-      <div className={styles.thumb}>
-        {recipe.thumb && (
-          <Image
-            alt={recipe.title}
-            className={styles.thumbImage}
-            fill
-            sizes="(min-width: 1440px) 320px, (min-width: 1024px) 30vw, (min-width: 768px) 45vw, 90vw"
-            src={recipe.thumb}
-          />
-        )}
-      </div>
-      <div className={styles.body}>
-        <div className={styles.head}>
-          <h3 className={styles.cardTitle}>{recipe.title}</h3>
-          {recipe.time && (
-            <span className={styles.badge}>
-              <svg className={styles.badgeIcon} aria-hidden="true">
-                <use href="/icons/sprite.svg#icon-clock" />
-              </svg>
-              {recipe.time}
-            </span>
-          )}
-        </div>
-        <p className={styles.description}>{recipe.description}</p>
-        {recipe.calories != null && (
-          <p className={styles.calories}>~{recipe.calories} cals</p>
-        )}
-        <div className={styles.actions}>
-          <Link className={styles.learnMore} href={ROUTES.RECIPE(recipe._id)}>
-            Learn more
-          </Link>
-          <button
-            aria-label="Save recipe"
-            className={styles.save}
-            type="button"
-          >
-            <svg className={styles.saveIcon} aria-hidden="true">
-              <use href="/icons/sprite.svg#icon-bookmark" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </article>
   );
 }
