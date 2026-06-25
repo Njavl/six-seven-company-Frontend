@@ -1,238 +1,250 @@
 .recipeDetailsSection {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding-top: 48px;
-    background: var(--color-bg);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 48px;
+  background: var(--color-bg);
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .containerRecipe {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 361px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 361px;
+  width: 100%;
 }
 
 .titleBlok {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 32px;
-    margin-bottom: 32px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 32px;
+  width: 100%;
+  line-height: 1;
 }
 
 @media (min-width: 768px) {
-    .containerRecipe {
-        max-width: 704px;
-    }
+  .containerRecipe {
+    max-width: 704px;
+  }
 
-    .titleBlok {
-        flex-direction: column;
-    }
+  .titleBlok {
+    flex-direction: column;
+  }
 }
 
 @media (min-width: 1440px) {
-    .containerRecipe {
-        max-width: 1224px;
-    }
+  .containerRecipe {
+    max-width: 1224px;
+  }
 
-    .titleBlok {
-        width: 1224px;
-    }
+  .titleBlok {
+    width: 1224px;
+  }
 
-    .describe {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
-        gap: 24px;
-        width: 1224px;
-    }
+  .describe {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    gap: 24px;
+    width: 1224px;
+  }
 
-    img.thumb {
-        aspect-ratio: 1226 / 624;
-    }
+  img.thumb {
+    aspect-ratio: 1226 / 624;
+  }
 }
 
 .thumb {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    object-fit: cover;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.noImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cream);
+  color: var(--color-accent);
+  font-family: var(--font-main);
+  font-weight: 600;
 }
 
 @media (max-width: 767px) {
-    .thumb {
-        width: 100%;
-        max-width: 361px;
-        aspect-ratio: 361 / 361;
-    }
+  .thumb {
+    width: 100%;
+    max-width: 361px;
+    aspect-ratio: 1226 / 624;
+  }
 }
 
 @media (min-width: 768px) {
-    .thumb {
-        width: 704px;
-        aspect-ratio: 702 / 702;
-    }
+  .thumb {
+    width: 704px;
+    aspect-ratio: 1226 / 624;
+  }
 }
 
 @media (min-width: 1440px) {
-    .thumb {
-        width: 1224px;
-        background: var(--color-black);
-        padding-left: calc((1224px - 704px) / 2);
-        padding-right: calc((1224px - 704px) / 2);
-    }
+  .thumb {
+    width: 1224px;
+    background: var(--color-black);
+    padding-left: calc((1224px - 704px) / 2);
+    padding-right: calc((1224px - 704px) / 2);
+  }
 }
 
 .title {
-    font-family: var(--font-main);
-    font-weight: 600;
-    font-size: 40px;
-    color: var(--color-black);
-    margin: 0;
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 40px;
+  color: var(--color-black);
+  margin: 0;
 }
 
 .subTitle {
-    font-family: var(--font-main);
-    font-weight: 600;
-    font-size: 32px;
-    color: var(--color-black);
-    margin: 0 0 8px;
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--color-black);
+  margin: 0 0 8px;
 }
 
 .infoBlok {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
 }
 
 .textBlok {
-    background: var(--color-cream);
-    border-radius: 16px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  background: var(--color-cream);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .generalInfo {
-    font-size: 24px;
-    margin-bottom: 0;
+  font-size: 24px;
+  margin-bottom: 0;
 }
 
 .textSpan {
-    font-family: var(--font-main);
-    font-weight: 600;
-    color: var(--color-black);
+  font-family: var(--font-main);
+  font-weight: 600;
+  color: var(--color-black);
 }
 
 .text {
-    font-family: var(--font-main);
-    line-height: 1.55;
-    color: var(--color-black);
-    margin: 0;
+  font-family: var(--font-main);
+  line-height: 1.55;
+  color: var(--color-black);
+  margin: 0;
 }
 
 .step {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .saveButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    border: none;
-    border-radius: 8px;
-    background: var(--color-accent);
-    padding: 16px;
-    max-width: 361px;
-    width: 100%;
-    font-family: var(--font-main);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--color-white);
-    cursor: pointer;
-    transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-accent);
+  padding: 16px;
+  max-width: 361px;
+  width: 100%;
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
 .saveButton:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
 .saveButton:focus-visible {
-    outline: none;
-    box-shadow: var(--focus-ring);
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .saveButton:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 @media (min-width: 768px) {
-    .infoBlok {
-        flex-direction: row;
-        gap: 24px;
-    }
+  .infoBlok {
+    flex-direction: row;
+    gap: 24px;
+  }
 
-    .saveButton {
-        width: 249px;
-        height: 56px;
-    }
+  .saveButton {
+    width: 249px;
+    height: 56px;
+  }
 }
 
 @media (min-width: 1440px) {
-    .infoBlok {
-        flex-direction: column;
-        gap: 24px;
-    }
+  .infoBlok {
+    flex-direction: column;
+    gap: 24px;
+  }
 
-    .saveButton {
-        width: 393px;
-        height: 56px;
-    }
+  .saveButton {
+    width: 393px;
+    height: 56px;
+  }
 }
 
 .icon {
-    stroke-width: 1px;
-    stroke: var(--color-white);
-    fill: transparent;
+  stroke-width: 1px;
+  stroke: var(--color-white);
+  fill: transparent;
 }
 
-
 .ingredientsList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .ingredientsList .recipeIngredient {
-    position: relative;
-    padding-left: 6px;
-    margin-bottom: 8px;
+  position: relative;
+  padding-left: 6px;
+  margin-bottom: 8px;
 }
 
 .ingredientsList .recipeIngredient::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.6em;
-    width: 2.5px;
-    height: 2.5px;
-    background-color: var(--color-black);
-    border-radius: 50%;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 2.5px;
+  height: 2.5px;
+  background-color: var(--color-black);
+  border-radius: 50%;
 }
 
 .recipeBlok {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-bottom: 32px;
 }
 
 .steps {
-    margin-bottom: 24px;
+  margin-bottom: 24px;
 }

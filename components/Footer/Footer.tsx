@@ -1,13 +1,16 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 
 import useAuthStore from '@/lib/store/authStore';
 import { ROUTES } from '@/lib/constants/routes';
+import AuthAlertModal from '@/components/AuthAlertModal/AuthAlertModal';
 import css from './Footer.module.css';
 
 export default function Footer() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   return (
     <footer className={css.footer}>
@@ -31,11 +34,26 @@ export default function Footer() {
 
         <nav className={css.nav}>
           <Link href={ROUTES.HOME}>Recipes</Link>
-          <Link href={isAuthenticated ? `${ROUTES.PROFILE}/own` : ROUTES.LOGIN}>
-            {isAuthenticated ? 'My Profile' : 'Log in'}
-          </Link>
+          {isAuthenticated ? (
+            <Link href={`${ROUTES.PROFILE}/own`}>My Profile</Link>
+          ) : (
+            <button
+              type="button"
+              className={css.navBtn}
+              onClick={() => setIsAuthModalOpen(true)}
+            >
+              Account
+            </button>
+          )}
         </nav>
       </div>
+
+      <AuthAlertModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        title="You are not signed in"
+        description="Log in or create an account to continue"
+      />
     </footer>
   );
 }
