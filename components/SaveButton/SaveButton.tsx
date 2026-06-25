@@ -37,7 +37,9 @@ export default function SaveButton({
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) setIsFavorite(inFavorites);
+    // Sync with the store while signed in; reset to unsaved on logout so a
+    // filled bookmark doesn't linger after the user logs out.
+    setIsFavorite(isAuthenticated ? inFavorites : false);
   }, [isAuthenticated, inFavorites]);
 
   const handleSaveClick = async (e: React.MouseEvent) => {

@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    '/**': ['./public/icons/sprite.svg'],
+  },
   images: {
     qualities: [75, 100],
     remotePatterns: [

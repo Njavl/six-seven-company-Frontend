@@ -10,6 +10,17 @@ const privateRoutes = ['/add-recipe', '/profile'];
 const publicRoutes = ['/auth/login', '/auth/register'];
 
 export async function middleware(request: NextRequest) {
+  try {
+    return await runMiddleware(request);
+  } catch {
+    // Any unexpected failure (e.g. an Edge-runtime incompatibility or a hung
+    // backend) must never 500 the page — fail open and let the request through.
+    // The profile page still client-redirects unauthenticated users to login.
+    return NextResponse.next();
+  }
+}
+
+async function runMiddleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get('accessToken')?.value;
   const refreshToken = request.cookies.get('refreshToken')?.value;
