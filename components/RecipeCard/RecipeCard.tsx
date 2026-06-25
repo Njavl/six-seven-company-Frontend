@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import SaveButton from '../SaveButton/SaveButton';
 import AuthAlertModal from '@/components/AuthAlertModal/AuthAlertModal';
+import SavedAlertModal from '@/components/SavedAlertModal/SavedAlertModal';
 import { ROUTES } from '@/lib/constants/routes';
 import styles from './RecipeCard.module.css';
 
@@ -28,6 +29,7 @@ export default function RecipeCard({
   isFavorite = false,
 }: RecipeCardProps) {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
 
   return (
     <>
@@ -79,6 +81,7 @@ export default function RecipeCard({
               recipeId={id}
               isFavoriteInitial={isFavorite}
               onAuthRequired={() => setIsAuthModalOpen(true)}
+              onSaved={() => setIsSavedModalOpen(true)}
             />
           </div>
         </div>
@@ -87,6 +90,10 @@ export default function RecipeCard({
       <AuthAlertModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
+      />
+      <SavedAlertModal
+        isOpen={isSavedModalOpen}
+        onClose={() => setIsSavedModalOpen(false)}
       />
     </>
   );

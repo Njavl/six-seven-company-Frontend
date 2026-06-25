@@ -10,12 +10,14 @@ interface SaveButtonProps {
   recipeId: string;
   isFavoriteInitial?: boolean;
   onAuthRequired?: () => void;
+  onSaved?: () => void;
 }
 
 export default function SaveButton({
   recipeId,
   isFavoriteInitial = false,
   onAuthRequired,
+  onSaved,
 }: SaveButtonProps) {
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
   const setFavorite = useAuthStore(state => state.setFavorite);
@@ -55,6 +57,7 @@ export default function SaveButton({
         await removeFavorite(recipeId);
       } else {
         await addFavorite(recipeId);
+        onSaved?.();
       }
       setFavorite(recipeId, !previousFavorite);
     } catch {
