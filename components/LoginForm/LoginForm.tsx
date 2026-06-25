@@ -114,11 +114,11 @@ export default function LoginForm() {
           </div>
 
           <button
-            className={css.submitBtn}
+            className={`${css.submitBtn} ${isSubmitting ? css.loading : ''}`}
             type="submit"
             disabled={!isValid || isSubmitting}
           >
-            {isSubmitting ? <Loader /> : 'Login'}
+            {isSubmitting ? <Loader variant="button" /> : 'Login'}
           </button>
 
           <p className={css.text}>

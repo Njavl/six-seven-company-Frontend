@@ -61,6 +61,17 @@
     opacity: 0.3;
     cursor: not-allowed;
 }
+/* While submitting the button stays full brown with a crisp white spinner,
+   not dimmed like the "form invalid" disabled state above. */
+.submitBtn.loading,
+.submitBtn.loading:disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    box-shadow: none;
+    cursor: progress;
+}
 .text {
         line-height: 155%;
         text-align: center;

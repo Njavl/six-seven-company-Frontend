@@ -14,6 +14,15 @@
   animation: spin 0.75s linear infinite;
 }
 
+/* Compact white spinner for use inside filled buttons. */
+.spinner.button {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.4);
+  border-top-color: var(--color-white);
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

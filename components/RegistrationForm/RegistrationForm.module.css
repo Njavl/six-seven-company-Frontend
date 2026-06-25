@@ -129,6 +129,16 @@
     opacity: 0.7;
     cursor: not-allowed;
 }
+/* While submitting: full-colour button with a crisp white spinner,
+   not the dimmed "form invalid" disabled state. */
+.button.loading,
+.button.loading:disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    cursor: progress;
+}
 
 .error {
     margin: 4px 0 0;

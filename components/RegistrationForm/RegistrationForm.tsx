@@ -217,11 +217,13 @@ export default function RegistrationForm() {
               </div>
 
               <button
-                className={styles.button}
+                className={`${styles.button} ${
+                  isSubmitting ? styles.loading : ''
+                }`}
                 type="submit"
                 disabled={!isValid || isSubmitting}
               >
-                {isSubmitting ? <Loader /> : 'Create account'}
+                {isSubmitting ? <Loader variant="button" /> : 'Create account'}
               </button>
             </div>
 

@@ -1,9 +1,19 @@
 import styles from './Loader.module.css';
 
-export default function Loader() {
+interface LoaderProps {
+  variant?: 'page' | 'button';
+}
+
+export default function Loader({ variant = 'page' }: LoaderProps) {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.spinner} role="status" aria-label="Loading" />
+      <div
+        className={`${styles.spinner} ${
+          variant === 'button' ? styles.button : ''
+        }`}
+        role="status"
+        aria-label="Loading"
+      />
     </div>
   );
 }
