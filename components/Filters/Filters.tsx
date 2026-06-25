@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   getCategories,
@@ -9,6 +9,7 @@ import {
 } from '@/lib/api/clientApi';
 import { useFilters } from '@/lib/hooks/useFilters';
 import { QUERY_KEYS } from '@/lib/constants/query-keys';
+import Dropdown from './Dropdown';
 import styles from './Filters.module.css';
 
 export default function Filters() {
@@ -21,6 +22,20 @@ export default function Filters() {
     resetFilters,
   } = useFilters();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Lock body scroll while the mobile filter modal is open.
+  useEffect(() => {
+    if (!isOpen) return;
+    document.body.style.overflow = 'hidden';
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isOpen]);
 
   const { data: categories = [] } = useQuery({
     queryKey: [QUERY_KEYS.CATEGORIES],
@@ -40,7 +55,14 @@ export default function Filters() {
   });
   const total = countData?.total ?? 0;
 
-  const hasActiveFilters = Boolean(category || ingredient);
+  const categoryOptions = categories.map(item => ({
+    value: item.name,
+    label: item.name,
+  }));
+  const ingredientOptions = ingredients.map(item => ({
+    value: item.name,
+    label: item.name,
+  }));
 
   const handleReset = () => {
     resetFilters();
@@ -55,8 +77,18 @@ export default function Filters() {
         className={styles.mobileButton}
         type="button"
         onClick={() => setIsOpen(true)}
+        aria-label="Open filters"
       >
         Filters
+        <svg
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <use href="#icon-filter" />
+        </svg>
       </button>
 
       {isOpen && (
@@ -76,47 +108,39 @@ export default function Filters() {
             onClick={() => setIsOpen(false)}
             aria-label="Close filters"
           >
-            ×
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <use href="#icon-exit" />
+            </svg>
           </button>
         </div>
 
-        {hasActiveFilters && (
-          <button className={styles.reset} type="button" onClick={handleReset}>
-            Reset filters
-          </button>
-        )}
+        <button className={styles.reset} type="button" onClick={handleReset}>
+          Reset filters
+        </button>
 
-        <label className={styles.field}>
-          <span className="visually-hidden">Category</span>
-          <select
-            className={styles.select}
+        <div className={styles.field}>
+          <Dropdown
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="">Category</option>
-            {categories.map((item) => (
-              <option key={item._id} value={item.name}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-        </label>
+            placeholder="Category"
+            options={categoryOptions}
+            onChange={setCategory}
+          />
+        </div>
 
-        <label className={styles.field}>
-          <span className="visually-hidden">Ingredient</span>
-          <select
-            className={styles.select}
+        <div className={styles.field}>
+          <Dropdown
             value={ingredient}
-            onChange={(e) => setIngredient(e.target.value)}
-          >
-            <option value="">Ingredient</option>
-            {ingredients.map((item) => (
-              <option key={item._id} value={item.name}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-        </label>
+            placeholder="Ingredient"
+            options={ingredientOptions}
+            onChange={setIngredient}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,24 +1,30 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import useAuthStore from '@/lib/store/authStore';
 import { addFavorite, removeFavorite } from '@/lib/api/clientApi';
+import { QUERY_KEYS } from '@/lib/constants/query-keys';
+import AuthAlertModal from '@/components/AuthAlertModal/AuthAlertModal';
 import styles from './SaveButton.module.css';
 
 interface SaveButtonProps {
   recipeId: string;
   isFavoriteInitial?: boolean;
   onAuthRequired?: () => void;
-  onSaved?: () => void;
+  variant?: 'icon' | 'wide';
+  className?: string;
 }
 
 export default function SaveButton({
   recipeId,
   isFavoriteInitial = false,
   onAuthRequired,
-  onSaved,
+  variant = 'icon',
+  className,
 }: SaveButtonProps) {
+  const queryClient = useQueryClient();
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
   const setFavorite = useAuthStore(state => state.setFavorite);
   const inFavorites = useAuthStore(
@@ -28,6 +34,7 @@ export default function SaveButton({
     inFavorites || isFavoriteInitial
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) setIsFavorite(inFavorites);
@@ -41,7 +48,7 @@ export default function SaveButton({
       if (onAuthRequired) {
         onAuthRequired();
       } else {
-        toast.error('Please log in to save recipes.');
+        setIsAuthModalOpen(true);
       }
       return;
     }
@@ -57,9 +64,12 @@ export default function SaveButton({
         await removeFavorite(recipeId);
       } else {
         await addFavorite(recipeId);
-        onSaved?.();
       }
       setFavorite(recipeId, !previousFavorite);
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.RECIPES] });
+      toast.success(
+        previousFavorite ? 'Removed from saved' : 'Saved to favorites'
+      );
     } catch {
       setIsFavorite(previousFavorite);
       toast.error('Could not update favorites. Please try again.');
@@ -68,34 +78,49 @@ export default function SaveButton({
     }
   };
 
-  return (
-    <button
-      type="button"
-      onClick={handleSaveClick}
-      disabled={isLoading}
-      className={`${styles.iconBtn} ${isFavorite ? styles.saved : ''}`.trim()}
-      aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-      aria-pressed={isFavorite}
+  const isWide = variant === 'wide';
+
+  const bookmark = (
+    <svg
+      className={styles.icon}
+      fill={isFavorite ? 'currentColor' : 'none'}
+      stroke="currentColor"
+      aria-hidden="true"
     >
-      {isLoading ? (
-        <span className={styles.spinner} aria-hidden="true" />
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill={isFavorite ? 'currentColor' : 'none'}
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className={styles.icon}
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
-          />
-        </svg>
+      <use href="#icon-save" />
+    </svg>
+  );
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={handleSaveClick}
+        disabled={isLoading}
+        className={
+          isWide
+            ? (className ?? styles.button)
+            : `${styles.iconBtn} ${isFavorite ? styles.saved : ''}`.trim()
+        }
+        aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        aria-pressed={isFavorite}
+      >
+        {isLoading ? (
+          <span className={styles.spinner} aria-hidden="true" />
+        ) : (
+          <>
+            {isWide && <span>{isFavorite ? 'Saved' : 'Save'}</span>}
+            {bookmark}
+          </>
+        )}
+      </button>
+
+      {!onAuthRequired && (
+        <AuthAlertModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+        />
       )}
-    </button>
+    </>
   );
 }

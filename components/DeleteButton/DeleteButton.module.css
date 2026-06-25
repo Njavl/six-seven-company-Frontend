@@ -1,0 +1,50 @@
+.deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: 48px;
+  min-height: 40px;
+  padding: 8px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-error);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.deleteBtn:hover {
+  filter: brightness(0.9);
+}
+
+.deleteBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.deleteBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: var(--color-white);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

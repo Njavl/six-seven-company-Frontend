@@ -1,28 +1,13 @@
 import { Recipe } from '../../types/recipe';
 import css from './RecipeDetails.module.css';
 import Image from 'next/image';
-/* SaveButton and its favorites state belong to the SaveButton task (S10).
-   Re-enable together when that component is ready:
 import SaveButton from '../SaveButton/SaveButton';
-import { getCurrentUser } from '@/lib/api/clientApi';
-*/
 
 interface RecipeDetailsProps {
   data: Recipe;
 }
 
 export default function RecipeDetails({ data }: RecipeDetailsProps) {
-  /* favorites/isFavorite feed SaveButton (S10) — enable with that component:
-  let favorites: string[] = [];
-  try {
-    const me = await getCurrentUser();
-    favorites = me.favorites ?? [];
-  } catch {
-    favorites = [];
-  }
-  const isFavorite = favorites.includes(data._id);
-  */
-
   return (
     <section className={css.recipeDetailsSection}>
       <div className={css.containerRecipe}>
@@ -42,7 +27,7 @@ export default function RecipeDetails({ data }: RecipeDetailsProps) {
         <div className={css.describe}>
           <div className={css.infoBlok}>
             <div className={css.textBlok}>
-              <h2 className={`${css.subTitle} ${css.generalInfo}`}>General information</h2>
+              <h2 className={`${css.subTitle} ${css.generalInfo}`}>General informations</h2>
               <p className={css.text}>
                 <span className={css.textSpan}>Category: </span>
                 {data.category}
@@ -52,16 +37,19 @@ export default function RecipeDetails({ data }: RecipeDetailsProps) {
                 {data.time} minutes
               </p>
 
-               {data.calories && (
-                <p className={css.text}>
-                  <span className={css.textSpan}>Caloric content: </span>
-                  Approximately {data.calories} kcal per serving
-                </p>
-              )}
+              <p className={css.text}>
+                <span className={css.textSpan}>Caloric content: </span>
+                {data.calories
+                  ? `Approximately ${data.calories} kcal per serving`
+                  : 'N/A'}
+              </p>
             </div>
 
-            {/* TODO: connect SaveButton after component implementation */}
-            {/* <SaveButton recipeId={data._id} initialIsFavorite={isFavorite} variant="wide" /> */}
+            <SaveButton
+              recipeId={data._id}
+              variant="wide"
+              className={css.saveButton}
+            />
           </div>
           <div className={css.recipeBlok}>
             <div>

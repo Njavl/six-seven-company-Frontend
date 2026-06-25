@@ -4,8 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import SaveButton from '../SaveButton/SaveButton';
+import DeleteButton from '../DeleteButton/DeleteButton';
 import AuthAlertModal from '@/components/AuthAlertModal/AuthAlertModal';
-import SavedAlertModal from '@/components/SavedAlertModal/SavedAlertModal';
 import { ROUTES } from '@/lib/constants/routes';
 import styles from './RecipeCard.module.css';
 
@@ -17,6 +17,7 @@ interface RecipeCardProps {
   description: string;
   calories?: number | null;
   isFavorite?: boolean;
+  showDelete?: boolean;
 }
 
 export default function RecipeCard({
@@ -27,9 +28,9 @@ export default function RecipeCard({
   description,
   calories,
   isFavorite = false,
+  showDelete = false,
 }: RecipeCardProps) {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isSavedModalOpen, setIsSavedModalOpen] = useState(false);
 
   return (
     <>
@@ -68,9 +69,9 @@ export default function RecipeCard({
 
           <div className={styles.descriptionContainer}>
             <p className={styles.description}>{description}</p>
-            {calories ? (
-              <p className={styles.calories}>~{calories} cals</p>
-            ) : null}
+            <p className={styles.calories}>
+              {calories ? `~${calories} cals` : 'N/A'}
+            </p>
           </div>
 
           <div className={styles.buttonContainer}>
@@ -81,8 +82,8 @@ export default function RecipeCard({
               recipeId={id}
               isFavoriteInitial={isFavorite}
               onAuthRequired={() => setIsAuthModalOpen(true)}
-              onSaved={() => setIsSavedModalOpen(true)}
             />
+            {showDelete && <DeleteButton recipeId={id} />}
           </div>
         </div>
       </div>
@@ -90,10 +91,6 @@ export default function RecipeCard({
       <AuthAlertModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
-      />
-      <SavedAlertModal
-        isOpen={isSavedModalOpen}
-        onClose={() => setIsSavedModalOpen(false)}
       />
     </>
   );

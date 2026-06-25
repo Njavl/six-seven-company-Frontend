@@ -20,43 +20,25 @@
 }
 
 .field {
-  display: inline-flex;
-}
-
-.select {
-  height: 48px;
-  min-width: 200px;
-  padding: 0 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-white);
-  color: var(--color-text-body);
-  font-family: inherit;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.select:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
+  width: 200px;
 }
 
 .reset {
   height: 48px;
   padding: 0 12px;
   border: none;
-  border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--color-accent);
+  color: var(--color-text-body);
   font-weight: 600;
   font-size: 16px;
   text-decoration: underline;
+  text-underline-offset: 4px;
   white-space: nowrap;
   cursor: pointer;
 }
 
 .reset:hover {
-  color: var(--color-brown-dark);
+  color: var(--color-accent);
 }
 
 /* Mobile/tablet-only chrome — hidden on desktop */
@@ -66,7 +48,7 @@
   display: none;
 }
 
-/* Tablet + mobile: filters collapse into a dropdown panel (spec) */
+/* Tablet + mobile: filters collapse into a slide-in panel (spec) */
 @media (max-width: 1439px) {
   .filters {
     position: relative;
@@ -81,7 +63,7 @@
     background: transparent;
     color: var(--color-text-body);
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
   }
 
@@ -100,8 +82,9 @@
     align-items: stretch;
     gap: 16px;
     width: min(320px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
     padding: 20px 16px 24px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-lg);
     background-color: var(--color-white);
     box-shadow: var(--shadow-lg);
   }
@@ -117,14 +100,14 @@
   .mobileHeader {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: end;
     gap: 8px;
   }
 
   .mobileTitle {
     margin: 0;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-text-body);
   }
 
@@ -138,13 +121,18 @@
     border: none;
     background: transparent;
     color: var(--color-text-body);
-    font-size: 20px;
-    line-height: 1;
     cursor: pointer;
   }
 
-  .field,
-  .select {
+  .field {
     width: 100%;
+  }
+
+  /* On the mobile panel "Reset filters" sits at the bottom (per mockup) */
+  .reset {
+    order: 3;
+    align-self: flex-start;
+    height: auto;
+    padding: 0;
   }
 }

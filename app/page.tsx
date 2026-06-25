@@ -4,6 +4,7 @@ import Image from 'next/image';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Filters from '@/components/Filters/Filters';
 import RecipesList from '@/components/RecipesList/RecipesList';
+import RecipesHeading from '@/components/RecipesHeading/RecipesHeading';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default function MainPage() {
 
       <section className={styles.recipesSection}>
         <div className={styles.recipesInner}>
-          <h2 className={styles.recipesTitle}>Recipes</h2>
+          <RecipesHeading className={styles.recipesTitle} />
           <Suspense fallback={null}>
             <Filters />
             <RecipesList source="search" />

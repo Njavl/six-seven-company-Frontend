@@ -20,24 +20,29 @@
   transition: all 0.3s ease;
 }
 
+/* Button states per design system (sm / Fill). Hover darkens the accent slightly
+   (kept visible — darkening all the way to brown-dark blended into the brown-dark
+   header and stuck while focused after a click). Focus shows a light ring. */
 .registerBtn:hover,
-.registerBtn:focus,
-.addRecipeBtn:hover,
-.addRecipeBtn:focus {
-  background-color: var(--color-brown-dark);
-  outline: none;
+.addRecipeBtn:hover {
+  filter: brightness(0.9);
 }
 
 .registerBtn:active,
 .addRecipeBtn:active {
-  background-color: var(--color-brown-dark);
   transform: scale(0.98);
+}
+
+.registerBtn:focus-visible,
+.addRecipeBtn:focus-visible {
+  outline: 2px solid var(--color-cream);
+  outline-offset: 2px;
 }
 
 .registerBtn:disabled,
 .addRecipeBtn:disabled {
-  background-color: var(--color-border);
-  color: var(--color-text-placeholder);
+  background-color: var(--color-accent);
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -49,7 +54,8 @@
   font-weight: 600;
 }
 
-.navLink:hover {
+.navLink:hover,
+.navLinkActive {
   text-decoration: underline;
   text-decoration-color: var(--color-white);
   text-underline-offset: 6px;

@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import useAuthStore from '@/lib/store/authStore';
 import { ROUTES } from '@/lib/constants/routes';
 import css from '../AuthNavigation/AuthNavigation.module.css';
@@ -20,24 +21,38 @@ export default function NavLinks({
   const containerClass =
     variant === 'mobile' ? css.mobileList : css.desktopList;
   const { user } = useAuthStore();
+  const pathname = usePathname();
+
+  const withActive = (base: string, active: boolean) =>
+    active ? `${base} ${css.navLinkActive}` : base;
 
   return (
     <div className={containerClass}>
       {isAuthenticated ? (
         <div className={css.authGroup}>
-          <Link href={ROUTES.HOME} className={css.navLink} onClick={onClose}>
+          <Link
+            href={ROUTES.HOME}
+            className={withActive(css.navLink, pathname === ROUTES.HOME)}
+            onClick={onClose}
+          >
             Recipes
           </Link>
           <Link
             href={`${ROUTES.PROFILE}/own`}
-            className={css.navLink}
+            className={withActive(
+              css.navLink,
+              pathname.startsWith(ROUTES.PROFILE)
+            )}
             onClick={onClose}
           >
             My Profile
           </Link>
           <Link
             href={ROUTES.ADD_RECIPE}
-            className={css.addRecipeBtn}
+            className={withActive(
+              css.addRecipeBtn,
+              pathname.startsWith(ROUTES.ADD_RECIPE)
+            )}
             onClick={onClose}
           >
             Add Recipe
@@ -75,19 +90,29 @@ export default function NavLinks({
         </div>
       ) : (
         <div className={css.guestGroup}>
-          <Link href={ROUTES.HOME} className={css.navLink} onClick={onClose}>
+          <Link
+            href={ROUTES.HOME}
+            className={withActive(css.navLink, pathname === ROUTES.HOME)}
+            onClick={onClose}
+          >
             Recipes
           </Link>
           <Link
             href={ROUTES.LOGIN}
-            className={css.linkButton}
+            className={withActive(
+              css.linkButton,
+              pathname.startsWith(ROUTES.LOGIN)
+            )}
             onClick={onClose}
           >
             Log in
           </Link>
           <Link
             href={ROUTES.REGISTER}
-            className={css.registerBtn}
+            className={withActive(
+              css.registerBtn,
+              pathname.startsWith(ROUTES.REGISTER)
+            )}
             onClick={onClose}
           >
             Register

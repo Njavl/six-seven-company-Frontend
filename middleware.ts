@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parse } from 'cookie';
-import { checkSession } from '@/lib/api/serverApi';
+import {
+  checkSession,
+  getCurrentUser,
+  readSetCookies,
+} from '@/lib/api/edgeAuth';
 
 const privateRoutes = ['/add-recipe', '/profile'];
 const publicRoutes = ['/auth/login', '/auth/register'];
@@ -18,13 +22,10 @@ export async function middleware(request: NextRequest) {
   if (!accessToken) {
     if (refreshToken) {
       try {
-        const data = await checkSession(request.headers.get('cookie') ?? '');
-        const setCookie = data.headers['set-cookie'];
+        const res = await checkSession(request.headers.get('cookie') ?? '');
+        const cookieArray = res.ok ? readSetCookies(res) : [];
 
-        if (setCookie) {
-          const cookieArray = Array.isArray(setCookie)
-            ? setCookie
-            : [setCookie];
+        if (cookieArray.length) {
           const response = isPublicRoute
             ? NextResponse.redirect(new URL('/', request.url))
             : NextResponse.next();
@@ -64,7 +65,26 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isPublicRoute) {
-    return NextResponse.redirect(new URL('/', request.url));
+    let valid = false;
+    try {
+      const res = await getCurrentUser(request.headers.get('cookie') ?? '');
+      valid = res.ok;
+    } catch {
+      // Network error reaching the backend — treat the session as invalid.
+      valid = false;
+    }
+
+    if (valid) {
+      // Valid session: logged-in users shouldn't see the auth pages.
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+
+    // Stale/invalid token: clear it so it stops blocking the auth pages.
+    const response = NextResponse.next();
+    response.cookies.delete('accessToken');
+    response.cookies.delete('refreshToken');
+    response.cookies.delete('sessionId');
+    return response;
   }
 
   return NextResponse.next();

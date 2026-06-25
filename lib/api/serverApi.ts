@@ -1,7 +1,10 @@
-import axios, { type AxiosResponse } from 'axios';
+import axios from 'axios';
 import type { Recipe } from '@/types/recipe';
 import type { Ingredient } from '@/types/ingredient';
 
+// Axios instance for **Server Components** (Node runtime). Do NOT import this from
+// `middleware.ts` — middleware runs in the Edge runtime and must use the
+// fetch-based helpers in `edgeAuth.ts` instead (axios crashes on Edge).
 const baseURL =
   (process.env.API_URL ??
     process.env.NEXT_PUBLIC_API_URL ??
@@ -11,14 +14,6 @@ const serverApi = axios.create({
   baseURL,
   withCredentials: true,
 });
-
-export async function checkSession(
-  cookieHeader: string
-): Promise<AxiosResponse> {
-  return serverApi.post('/auth/refresh', null, {
-    headers: { Cookie: cookieHeader },
-  });
-}
 
 export async function getRecipeById(recipeId: string): Promise<Recipe> {
   const { data } = await serverApi.get<Recipe>(`/recipes/${recipeId}`);
