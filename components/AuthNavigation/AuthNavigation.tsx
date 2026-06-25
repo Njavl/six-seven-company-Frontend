@@ -8,6 +8,7 @@ import { ROUTES } from '@/lib/constants/routes';
 import MobileMenu from '../MobileMenu/MobileMenu';
 import NavLinks from '../NavLinks/NavLinks';
 import css from './AuthNavigation.module.css';
+import LogoutAlertModal from '../LogoutAlertModal/LogoutAlertModal';
 
 interface AuthNavigationProps {
   variant?: 'header' | 'mobile';
@@ -18,15 +19,23 @@ export default function AuthNavigation({
 }: AuthNavigationProps) {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { isAuthenticated, clearUser } = useAuthStore();
 
   const handleLogout = async () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+
     try {
       await logout();
     } catch {
       toast.error('Logout failed');
     } finally {
       clearUser();
+      setIsLogoutModalOpen(false);
+      setIsLoading(false);
       router.push(ROUTES.HOME);
     }
   };
@@ -37,7 +46,7 @@ export default function AuthNavigation({
         <NavLinks
           variant={variant}
           isAuthenticated={isAuthenticated}
-          onLogout={handleLogout}
+          onLogout={() => setIsLogoutModalOpen(true)}
         />
       </nav>
 
@@ -63,9 +72,15 @@ export default function AuthNavigation({
           variant="mobile"
           onClose={() => setIsMobileMenuOpen(false)}
           isAuthenticated={isAuthenticated}
-          onLogout={handleLogout}
+          onLogout={() => setIsLogoutModalOpen(true)}
         />
       )}
+      <LogoutAlertModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleLogout}
+        isLoading={isLoading}
+      />
     </>
   );
 }
