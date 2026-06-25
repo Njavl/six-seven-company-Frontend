@@ -4,6 +4,8 @@
   width: 100%;
   padding-top: 48px;
   background: var(--color-bg);
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .containerRecipe {
@@ -16,10 +18,11 @@
 
 .titleBlok {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   gap: 32px;
   margin-bottom: 32px;
   width: 100%;
+  line-height: 1;
 }
 
 @media (min-width: 768px) {
@@ -61,18 +64,28 @@
   object-fit: cover;
 }
 
+.noImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cream);
+  color: var(--color-accent);
+  font-family: var(--font-main);
+  font-weight: 600;
+}
+
 @media (max-width: 767px) {
   .thumb {
     width: 100%;
     max-width: 361px;
-    aspect-ratio: 361 / 361;
+    aspect-ratio: 1226 / 624;
   }
 }
 
 @media (min-width: 768px) {
   .thumb {
     width: 704px;
-    aspect-ratio: 702 / 702;
+    aspect-ratio: 1226 / 624;
   }
 }
 

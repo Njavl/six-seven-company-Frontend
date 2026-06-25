@@ -3,10 +3,13 @@ const baseURL =
     process.env.NEXT_PUBLIC_API_URL ??
     'https://six-seven-company.onrender.com') + '/api';
 
+const FETCH_TIMEOUT_MS = 8000;
+
 export function checkSession(cookieHeader: string): Promise<Response> {
   return fetch(`${baseURL}/auth/refresh`, {
     method: 'POST',
     headers: { Cookie: cookieHeader },
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 }
 
@@ -14,10 +17,10 @@ export function getCurrentUser(cookieHeader: string): Promise<Response> {
   return fetch(`${baseURL}/users/current`, {
     method: 'GET',
     headers: { Cookie: cookieHeader },
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 }
 
-// Reads all Set-Cookie headers from a fetch Response (Edge supports getSetCookie()).
 export function readSetCookies(res: Response): string[] {
   if (typeof res.headers.getSetCookie === 'function') {
     return res.headers.getSetCookie();

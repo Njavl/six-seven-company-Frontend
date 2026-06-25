@@ -8,11 +8,15 @@ import styles from './AuthAlertModal.module.css';
 interface AuthAlertModalProps {
   isOpen: boolean;
   onClose: () => void;
+  title?: string;
+  description?: string;
 }
 
 export default function AuthAlertModal({
   isOpen,
   onClose,
+  title = 'Error while saving',
+  description = 'To save this recipe, you need to authorize first',
 }: AuthAlertModalProps) {
   useEffect(() => {
     if (!isOpen) return;
@@ -50,10 +54,8 @@ export default function AuthAlertModal({
             />
           </svg>
         </button>
-        <h2 className={styles.title}>Error while saving</h2>
-        <p className={styles.description}>
-          To save this recipe, you need to authorize first
-        </p>
+        <h2 className={styles.title}>{title}</h2>
+        <p className={styles.description}>{description}</p>
         <div className={styles.buttons}>
           <Link href="/auth/login" className={styles.btnLogin}>
             Log in

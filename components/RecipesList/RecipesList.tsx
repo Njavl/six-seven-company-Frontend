@@ -14,7 +14,6 @@ import RecipeCard from '../RecipeCard/RecipeCard';
 import Pagination from '../Pagination/Pagination';
 import Loader from '../Loader/Loader';
 import styles from './RecipesList.module.css';
-import EmptySearch from '../EmptySearch/EmptySearch';
 
 type Source = 'search' | 'own' | 'favorites';
 
