@@ -8,7 +8,11 @@ const FETCH_TIMEOUT_MS = 8000;
 export function checkSession(cookieHeader: string): Promise<Response> {
   return fetch(`${baseURL}/auth/refresh`, {
     method: 'POST',
-    headers: { Cookie: cookieHeader },
+    headers: {
+      Cookie: cookieHeader,
+      Accept: 'application/json',
+      TE: 'identity', // Указывает серверу присылать несжатый/прямой ответ
+    },
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 }

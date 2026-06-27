@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import axios, { AxiosResponse } from 'axios';
 
 const BACKEND_URL =
   process.env.API_URL ??
@@ -26,45 +27,81 @@ async function proxy(
   const { path } = await ctx.params;
   const target = `${BACKEND_URL}/api/${path.join('/')}${req.nextUrl.search}`;
 
-  const headers = new Headers(req.headers);
-  headers.delete('host');
-  headers.delete('connection');
+  // Строго типизируем объект заголовков
+  const headers: Record<string, string> = {};
+  req.headers.forEach((value, key) => {
+    if (key !== 'host' && key !== 'connection') {
+      headers[key] = value;
+    }
+  });
 
   const hasBody = req.method !== 'GET' && req.method !== 'HEAD';
-  const body = hasBody ? await req.arrayBuffer() : undefined;
+  let body: ArrayBuffer | undefined = undefined;
 
-  const backendRes = await fetch(target, {
-    method: req.method,
-    headers,
-    body,
-    redirect: 'manual',
-    cache: 'no-store',
-  });
-
-  const NULL_BODY_STATUS = new Set([101, 204, 205, 304]);
-  const payload = NULL_BODY_STATUS.has(backendRes.status)
-    ? null
-    : await backendRes.arrayBuffer();
-  const res = new NextResponse(payload, {
-    status: backendRes.status,
-    statusText: backendRes.statusText,
-  });
-
-  backendRes.headers.forEach((value, key) => {
-    if (HOP_BY_HOP.has(key) || key === 'set-cookie') return;
-    res.headers.set(key, value);
-  });
-
-  const isSecure = req.nextUrl.protocol === 'https:';
-  const cookies = backendRes.headers.getSetCookie();
-  for (const cookie of cookies) {
-    res.headers.append(
-      'set-cookie',
-      isSecure ? cookie : rewriteCookieForInsecureOrigin(cookie)
-    );
+  if (hasBody) {
+    body = await req.arrayBuffer();
   }
 
-  return res;
+  try {
+    // Явно указываем тип ответа AxiosResponse<ArrayBuffer>
+    const backendRes: AxiosResponse<ArrayBuffer> = await axios({
+      method: req.method,
+      url: target,
+      headers: headers,
+      data: body,
+      responseType: 'arraybuffer',
+      validateStatus: () => true,
+    });
+
+    const NULL_BODY_STATUS = new Set([101, 204, 205, 304]);
+    const payload = NULL_BODY_STATUS.has(backendRes.status)
+      ? null
+      : backendRes.data;
+
+    const res = new NextResponse(payload, {
+      status: backendRes.status,
+      statusText: backendRes.statusText,
+    });
+
+    Object.entries(backendRes.headers).forEach(([key, value]) => {
+      if (
+        !value ||
+        HOP_BY_HOP.has(key.toLowerCase()) ||
+        key.toLowerCase() === 'set-cookie'
+      )
+        return;
+      res.headers.set(key, String(value));
+    });
+
+    const isSecure = req.nextUrl.protocol === 'https:';
+    const setCookieHeader = backendRes.headers['set-cookie'];
+
+    if (setCookieHeader) {
+      const cookies = Array.isArray(setCookieHeader)
+        ? setCookieHeader
+        : [setCookieHeader];
+      for (const cookie of cookies) {
+        res.headers.append(
+          'set-cookie',
+          isSecure ? cookie : rewriteCookieForInsecureOrigin(cookie)
+        );
+      }
+    }
+
+    return res;
+  } catch (error: unknown) {
+    // Безопасное логирование ошибок типа unknown
+    if (error instanceof Error) {
+      console.error('Proxy critical failure:', error.message);
+    } else {
+      console.error('Proxy critical failure with unknown error:', error);
+    }
+
+    return NextResponse.json(
+      { message: 'Internal Proxy Error' },
+      { status: 500 }
+    );
+  }
 }
 
 export {

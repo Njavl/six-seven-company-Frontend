@@ -13,9 +13,8 @@ export async function middleware(request: NextRequest) {
   try {
     return await runMiddleware(request);
   } catch {
-    // Any unexpected failure (e.g. an Edge-runtime incompatibility or a hung
-    // backend) must never 500 the page — fail open and let the request through.
-    // The profile page still client-redirects unauthenticated users to login.
+    // В случае непредвиденных сетевых сбоев пропускаем запрос дальше,
+    // чтобы не ломать приложение ошибкой 500
     return NextResponse.next();
   }
 }
@@ -25,8 +24,10 @@ async function runMiddleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value;
   const refreshToken = request.cookies.get('refreshToken')?.value;
 
-  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
-  const isPrivateRoute = privateRoutes.some(route =>
+  const isPublicRoute = publicRoutes.some((route: string) =>
+    pathname.startsWith(route)
+  );
+  const isPrivateRoute = privateRoutes.some((route: string) =>
     pathname.startsWith(route)
   );
 
@@ -34,7 +35,21 @@ async function runMiddleware(request: NextRequest) {
     if (refreshToken) {
       try {
         const res = await checkSession(request.headers.get('cookie') ?? '');
-        const cookieArray = res.ok ? readSetCookies(res) : [];
+
+        // Если бэкенд вернул 401/403 (сессия полностью невалидна)
+        if (!res.ok) {
+          const response = isPrivateRoute
+            ? NextResponse.redirect(new URL('/auth/login', request.url))
+            : NextResponse.next();
+
+          // Жестко стираем просроченные токены прямо здесь
+          response.cookies.delete('accessToken');
+          response.cookies.delete('refreshToken');
+          response.cookies.delete('sessionId');
+          return response;
+        }
+
+        const cookieArray = readSetCookies(res);
 
         if (cookieArray.length) {
           const response = isPublicRoute
@@ -62,8 +77,16 @@ async function runMiddleware(request: NextRequest) {
 
           return response;
         }
-      } catch {
-        // Refresh failed (e.g. expired session) — treat as unauthenticated.
+      } catch (e) {
+        console.error('Middleware session refresh failed:', e);
+        const response = isPrivateRoute
+          ? NextResponse.redirect(new URL('/auth/login', request.url))
+          : NextResponse.next();
+
+        response.cookies.delete('accessToken');
+        response.cookies.delete('refreshToken');
+        response.cookies.delete('sessionId');
+        return response;
       }
     }
 
@@ -81,16 +104,13 @@ async function runMiddleware(request: NextRequest) {
       const res = await getCurrentUser(request.headers.get('cookie') ?? '');
       valid = res.ok;
     } catch {
-      // Network error reaching the backend — treat the session as invalid.
       valid = false;
     }
 
     if (valid) {
-      // Valid session: logged-in users shouldn't see the auth pages.
       return NextResponse.redirect(new URL('/', request.url));
     }
 
-    // Stale/invalid token: clear it so it stops blocking the auth pages.
     const response = NextResponse.next();
     response.cookies.delete('accessToken');
     response.cookies.delete('refreshToken');
@@ -101,11 +121,7 @@ async function runMiddleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// Конфигурация матчера: Middleware будет отрабатывать только на приватных роутах
 export const config = {
-  matcher: [
-    '/add-recipe/:path*',
-    '/profile/:path*',
-    '/auth/login',
-    '/auth/register',
-  ],
+  matcher: ['/add-recipe/:path*', '/profile/:path*'],
 };

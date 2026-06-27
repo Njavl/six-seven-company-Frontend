@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Formik,Form, Field, ErrorMessage, FormikHelpers, } from 'formik';
 import toast from 'react-hot-toast';
 
-import { register } from '@/lib/api/clientApi';
+import { register, login } from '@/lib/api/clientApi';
 import useAuthStore from '@/lib/store/authStore';
 import type { RegisterCredentials } from '@/types/user';
 
@@ -38,11 +38,18 @@ export default function RegistrationForm() {
     actions: FormikHelpers<RegisterFormValues>
   ) => {
     try {
-      const user = await register({
+      const email = values.email.trim();
+
+      // Бэкенд при регистрации НЕ ставит сессионные куки (только создаёт
+      // пользователя), поэтому сразу логинимся, чтобы появилась настоящая сессия
+      // и /profile не выкидывал обратно на логин.
+      await register({
         name: values.name.trim(),
-        email: values.email.trim(),
+        email,
         password: values.password,
       });
+
+      const user = await login({ email, password: values.password });
 
       setUser(user);
       toast.success('Registration successful');
